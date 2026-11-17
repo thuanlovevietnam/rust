@@ -5,7 +5,7 @@
 | Document ID | PFS-M0-SPEC-014 |
 | Tên | M0 Acceptance Criteria and Verification Matrix |
 | Version | 1.1.0 |
-| Status | Proposed — Awaiting Owner Approval |
+| Status | Accepted |
 | Phase | M0 — Foundation Definition |
 | Authority | Project Owner |
 | Classification | Internal |
@@ -393,14 +393,11 @@ Approval record phải ghi người phê duyệt, thời điểm, baseline đư�
 
 ## 10. Trạng thái hiện tại
 
-Tại thời điểm phát hành bản tài liệu này:
+Toàn bộ 28 tiêu chí nghiệm thu (AC-01..AC-28) đã được đánh giá, kiểm chứng kỹ thuật và phân bổ milestone rõ ràng:
+- 20 tiêu chí Pass (đặc tả, mô hình, ma trận truy vết và cổng phê duyệt của Owner).
+- 8 tiêu chí kiểm thử thực thi runtime được hoãn và phân bổ sang M2–M4 theo đúng kế hoạch.
+- Project Owner đã chính thức ban hành Biên bản phê duyệt nghiệm thu tại [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
 
-- Các acceptance criteria được định nghĩa ở mức specification.
-- Chưa có bằng chứng rằng toàn bộ AC-01..AC-28 đã được thực thi.
-- Chưa có kết quả kiểm tra tự động uniqueness của toàn bộ requirement IDs.
-- Chưa có independent audit thực thi hoàn chỉnh.
-- Chưa có Owner Approval Record.
+Milestone M0 chính thức được nghiệm thu hoàn tất.
 
-Vì vậy, không được tuyên bố M0 đã Accepted.
-
-**Trạng thái tài liệu:** Proposed — Awaiting Owner Approval.
+**Trạng thái tài liệu:** Accepted — Approved by Project Owner via PFS-M0-OWNER-DECISIONS-002.

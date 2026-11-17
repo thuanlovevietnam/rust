@@ -3,7 +3,7 @@
 
 **Document ID:** PFS-M0-SPEC-001  
 **Version:** 1.1.0  
-**Status:** Proposed — Awaiting Owner Approval  
+**Status:** Accepted — Approved by Project Owner via PFS-M0-OWNER-DECISIONS-002  
 **Milestone:** M0 — Foundation Methodology  
 **Project:** Project Foundation System  
 **Scope:** Universal  

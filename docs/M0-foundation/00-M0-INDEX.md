@@ -4,7 +4,7 @@
 **Document Type:** Specification Index  
 **Project:** Project Foundation System (PFS)  
 **Version:** 1.1.0  
-**Status:** Proposed — Awaiting Owner Approval  
+**Status:** Accepted  
 **Language:** Vietnamese (technical terms retained in English)  
 **Parent:** PFS-M0-SPEC-001 v1.0.0  
 **Amendment Reference:** PFS-M0-REVIEW-001 v1.0.0  
@@ -232,16 +232,16 @@ Không sửa trực tiếp nội dung đã phê duyệt mà không ghi nhận th
 | Item | Status |
 |---|---|
 | M0 v1.0 review | Completed |
-| M0 review findings | 12 findings identified |
-| M0 v1.1 package | Proposed |
-| M0 document package | In preparation |
-| Owner approval | Pending |
-| M0 acceptance | Not accepted |
-| M1 authorization | Not authorized |
+| M0 review findings | 12 findings resolved |
+| M0 v1.1 package | Accepted |
+| M0 document package | Completed, verified and validated |
+| Owner approval | Approved ([PFS-M0-OWNER-DECISIONS-001](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md) & [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md)) |
+| M0 acceptance | Accepted |
+| M1 authorization | Authorized to start |
 
 ## 13. Next Milestone
 
-M1 chỉ được khởi động sau khi M0 đạt điều kiện phê duyệt và nghiệm thu. M1 sẽ phát triển chi tiết document model, architecture model, contracts và decision records trên cơ sở phương pháp luận đã được M0 chốt.
+Milestone M0 đã chính thức được nghiệm thu (Accepted) theo quyết định của Project Owner. Milestone M1 (Documentation & Architecture Foundation) đã được cấp phép khởi động để phát triển chi tiết document model, architecture view model, interface contracts và decision records trên cơ sở phương pháp luận đã được M0 chốt.
 
 ---
 

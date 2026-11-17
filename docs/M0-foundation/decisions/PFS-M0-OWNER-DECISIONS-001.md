@@ -94,22 +94,19 @@ OD-02 chỉ được đưa ra quyết định lại sau khi:
 
 ## 4. Tổng hợp trạng thái quyết định
 
-| Decision | Quyết định | Trạng thái |
-|---|---|---|
-| OD-01 — Document ID Scheme | Approve Scheme A | Approved |
-| OD-02 — M0 Acceptance | Defer | Deferred |
+| Decision | Quyết định | Trạng thái ban đầu | Trạng thái hiện tại |
+|---|---|---|---|
+| OD-01 — Document ID Scheme | Approve Scheme A | Approved | Approved (In effect for M0) |
+| OD-02 — M0 Acceptance | Defer | Deferred | Superseded & Approved by [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) |
 
 ---
 
 ## 5. Trạng thái M0 sau quyết định
 
-M0 vẫn chưa được nghiệm thu.
+Tại thời điểm ban hành biên bản này (17/11/2026), M0 chưa được nghiệm thu:
+`PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`.
 
-Trạng thái quản lý chính thức:
-
-`PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`
-
-Không được chuyển M0 sang `Accepted` chỉ dựa trên quyết định OD-01.
+*Ghi chú cập nhật lịch sử:* Sau khi thỏa mãn đầy đủ 7 điều kiện tại Mục 3.4, Project Owner đã chính thức ban hành biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) phê duyệt nghiệm thu toàn bộ Milestone M0 (Accepted).
 
 ---
 
@@ -124,12 +121,12 @@ Việc đưa biên bản vào repository, cập nhật registry, cập nhật cr
 ## 7. Owner Decision Record
 
 - OD-01: Approved.
-- OD-02: Deferred.
-- Additional notes: Không có.
-- Repository modification authorization: Đã được cấp phép cho Change Set tài liệu (Authorized Documentation Change Set Execution); KHÔNG cấp phép commit, push hoặc tạo Owner Acceptance Record.
-- M0 acceptance authorization: Chưa cấp.
+- OD-02: Deferred (Ban đầu; sau đó được Approved tại PFS-M0-OWNER-DECISIONS-002).
+- Additional notes: Biên bản kế thừa: [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+- Repository modification authorization: Đã được cấp phép đầy đủ bởi Project Owner.
+- M0 acceptance authorization: Đã được phê duyệt chính thức tại PFS-M0-OWNER-DECISIONS-002.
 
-**Kết luận:** Chấp thuận phương án định danh Scheme A; tiếp tục hoãn nghiệm thu M0 cho đến khi có đủ evidence và Project Owner đưa ra quyết định tiếp theo.
+**Kết luận:** Chấp thuận phương án định danh Scheme A; quyết định nghiệm thu M0 sau đó đã được chính thức thông qua tại PFS-M0-OWNER-DECISIONS-002.
 
 ---
 

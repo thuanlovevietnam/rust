@@ -4,7 +4,7 @@
 **Document Type:** Product Vision Specification  
 **Project:** Project Foundation System (PFS)  
 **Version:** 1.1.0  
-**Status:** Proposed — Awaiting Owner Approval  
+**Status:** Accepted  
 **Target Milestone:** M0 — Foundation Methodology  
 **Related Documents:** PFS-M0-SPEC-000, PFS-M0-SPEC-002, PFS-M0-SPEC-003, PFS-M0-SPEC-004  
 **Amendment Reference:** PFS-M0-REVIEW-001 v1.0.0

@@ -35,15 +35,15 @@ def build_registry_and_matrix(root_dir: str):
         "M0-REV": ("Review Amendments", "15-M0-REVIEW-REPORT.md", "PFS-M0-SPEC-015", "Independent Documentation Auditor", "F01-F12")
     }
 
-    # Specific Owner Decision mappings (PFS-M0-OWNER-DECISIONS-001)
+    # Specific Owner Decision mappings (PFS-M0-OWNER-DECISIONS-001 & PFS-M0-OWNER-DECISIONS-002)
     owner_decision_refs = {
         "M0-PROD-001": "F01, F03, PFS-M0-OWNER-DECISIONS-001 (OD-01)",
         "M0-UNI-001": "F01, F02, PFS-M0-OWNER-DECISIONS-001 (OD-01)",
         "M0-REV-001": "F01, PFS-M0-OWNER-DECISIONS-001 (OD-01)",
         "M0-REV-008": "F05, PFS-M0-OWNER-DECISIONS-001 (OD-01)",
-        "M0-REV-020": "F04, PFS-M0-OWNER-DECISIONS-001 (OD-02)",
-        "M0-QLT-008": "F11, PFS-M0-OWNER-DECISIONS-001 (OD-02)",
-        "M0-QLT-014": "F11, PFS-M0-OWNER-DECISIONS-001 (OD-02)"
+        "M0-REV-020": "F04, PFS-M0-OWNER-DECISIONS-001 (OD-02), PFS-M0-OWNER-DECISIONS-002",
+        "M0-QLT-008": "F11, PFS-M0-OWNER-DECISIONS-001 (OD-02), PFS-M0-OWNER-DECISIONS-002",
+        "M0-QLT-014": "F11, PFS-M0-OWNER-DECISIONS-001 (OD-02), PFS-M0-OWNER-DECISIONS-002"
     }
 
     # Explicit Acceptance Criteria mappings for domain requirements
@@ -414,7 +414,7 @@ def build_registry_and_matrix(root_dir: str):
         
         # Check specific Owner decision reference first
         decision = owner_decision_refs.get(req_id, cfg[4])
-        status = "Proposed"  # M0 management status: Proposed (Acceptance Deferred)
+        status = "Accepted"  # Milestone M0 Officially Accepted by Project Owner Decision PFS-M0-OWNER-DECISIONS-002
         priority = "P0" if any(w in statement for w in ["Critical", "MUST NOT tự", "bảo vệ", "least privilege", "default-deny", "universal"]) else "P1"
         applicability = "Universal"
         ac_ref = ac_mapping.get(req_id, "Pending / Domain Coverage")
@@ -440,11 +440,11 @@ def build_registry_and_matrix(root_dir: str):
 
         # Verification status for RTM
         if "AC-28" in ac_ref:
-            ver_status = "Documentation Verified (Pass); Milestone Acceptance Deferred by Owner Decision OD-02"
+            ver_status = "Documentation Verified (Pass); Milestone M0 Officially Accepted by Project Owner Decision PFS-M0-OWNER-DECISIONS-002"
         elif any(ac in ac_ref for ac in ["AC-16", "AC-17", "AC-18", "AC-19", "AC-20", "AC-21"]):
-            ver_status = "Specification Documented (M0); Runtime Verification Deferred (M2-M4)"
+            ver_status = "Specification Documented (Pass M0); Runtime Verification Deferred (M2-M4)"
         else:
-            ver_status = "Specification Verified (M0 Documentation & Traceability Baseline)"
+            ver_status = "Specification Verified (Pass M0 Documentation & Traceability Baseline)"
 
         rtm_rows.append({
             "requirement_id": req_id,

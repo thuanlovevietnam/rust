@@ -4,7 +4,7 @@
 **Document Type:** Authority and Decision Specification  
 **Project:** Project Foundation System (PFS)  
 **Version:** 1.1.0  
-**Status:** Proposed — Awaiting Owner Approval  
+**Status:** Accepted  
 **Target Milestone:** M0 — Foundation Methodology  
 **Related Documents:** PFS-M0-SPEC-003, PFS-M0-SPEC-004, PFS-M0-SPEC-005, PFS-M0-SPEC-007, PFS-M0-SPEC-009, PFS-M0-SPEC-011
 

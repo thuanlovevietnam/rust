@@ -5,7 +5,7 @@
 | Document ID | PFS-M0-SPEC-013 |
 | Tên | PFS Milestone Roadmap |
 | Version | 1.1.0 |
-| Status | Proposed — Awaiting Owner Approval |
+| Status | Accepted |
 | Phase | M0 — Foundation Definition |
 | Authority | Project Owner |
 | Classification | Internal |

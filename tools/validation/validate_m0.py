@@ -67,6 +67,7 @@ class ValidationContext:
         self.ac_registry = {}         # ac_id -> list of (file, line)
         self.has_od01_approved = False
         self.has_od02_deferred = False
+        self.has_od02_accepted = False
 
     def log_finding(self, severity: str, category: str, file_path: str, line: int, message: str):
         self.findings.append({
@@ -90,23 +91,25 @@ def check_file_inventory(ctx: ValidationContext):
         ctx.log_finding("CRITICAL", "Inventory", os.path.join(ctx.m0_dir, m), 0, f"Missing required M0 document: {m}")
 
 def validate_owner_decisions(ctx: ValidationContext):
-    dec_file = os.path.join(ctx.decisions_dir, "PFS-M0-OWNER-DECISIONS-001.md")
-    if not os.path.exists(dec_file):
-        ctx.log_finding("HIGH", "Governance", dec_file, 0, "Missing Owner Decision Record PFS-M0-OWNER-DECISIONS-001.md")
-        return
-
-    with open(dec_file, "r", encoding="utf-8", errors="ignore") as fp:
-        content = fp.read()
-
-    if "OD-01" in content and "APPROVED" in content:
-        ctx.has_od01_approved = True
+    dec_file1 = os.path.join(ctx.decisions_dir, "PFS-M0-OWNER-DECISIONS-001.md")
+    if not os.path.exists(dec_file1):
+        ctx.log_finding("HIGH", "Governance", dec_file1, 0, "Missing Owner Decision Record PFS-M0-OWNER-DECISIONS-001.md")
     else:
-        ctx.log_finding("HIGH", "Governance", dec_file, 1, "OD-01 Approved not found in decision record")
+        with open(dec_file1, "r", encoding="utf-8", errors="ignore") as fp:
+            content1 = fp.read()
+        if "OD-01" in content1 and "APPROVED" in content1:
+            ctx.has_od01_approved = True
+        else:
+            ctx.log_finding("HIGH", "Governance", dec_file1, 1, "OD-01 Approved not found in decision record")
+        if "OD-02" in content1 and "DEFERRED" in content1:
+            ctx.has_od02_deferred = True
 
-    if "OD-02" in content and "DEFERRED" in content:
-        ctx.has_od02_deferred = True
-    else:
-        ctx.log_finding("HIGH", "Governance", dec_file, 1, "OD-02 Deferred not found in decision record")
+    dec_file2 = os.path.join(ctx.decisions_dir, "PFS-M0-OWNER-DECISIONS-002.md")
+    if os.path.exists(dec_file2):
+        with open(dec_file2, "r", encoding="utf-8", errors="ignore") as fp:
+            content2 = fp.read()
+        if "OD-02" in content2 and ("APPROVED" in content2 or "ACCEPTED" in content2):
+            ctx.has_od02_accepted = True
 
 def inspect_documents_and_metadata(ctx: ValidationContext):
     # Check intra-package M0 files

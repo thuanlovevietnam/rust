@@ -1,12 +1,12 @@
 # PFS M0 CLOSURE REPORT
-## Báo cáo Đóng Milestone M0 — Thực thi Change Set Tài liệu, Kiểm toán Độc lập và Chuẩn bị Nghiệm thu
+## Báo cáo Đóng Milestone M0 — Nghiệm thu Hoàn tất Milestone M0 theo Quyết định của Project Owner
 
 **Report ID:** PFS-M0-RPT-CLS-001  
 **Milestone:** M0 — Foundation Definition  
 **Package Version:** 1.1.0  
 **Ngày thực hiện:** 17/11/2026  
-**Chế độ thực thi:** AUTHORIZED DOCUMENTATION CHANGE SET EXECUTION  
-**Thẩm quyền quyết định:** Project Owner  
+**Chế độ thực thi:** AUTHORIZED DOCUMENTATION CHANGE SET & OWNER ACCEPTANCE  
+**Thẩm quyền quyết định:** Project Owner (Nguyễn Thế Thuận)  
 **Nhóm chuyên gia thực thi:** Principal Systems Architect, Documentation Engineer, Requirements Engineer, Governance Analyst, QA Engineer, Independent Documentation Auditor  
 **Phân loại tài liệu:** Internal  
 
@@ -15,28 +15,23 @@
 ## 1. Executive Summary
 
 ### 1.1 Mục tiêu thực thi
-Thực hiện toàn diện chỉ thị của Project Owner về việc áp dụng Change Set tài liệu có kiểm soát để đưa hồ sơ Milestone M0 (Foundation Definition) đạt trạng thái chuẩn mực:
-> **`DOCUMENTATION CHANGE SET APPLIED — VALIDATION COMPLETED — READY FOR OWNER REVIEW`**
+Thực hiện toàn diện chỉ thị của Project Owner về việc áp dụng Change Set tài liệu có kiểm soát và ghi nhận Biên bản phê duyệt nghiệm thu Milestone M0:
+> **`DOCUMENTATION CHANGE SET APPLIED — VALIDATION COMPLETED — MILESTONE M0 ACCEPTED`**
 
 ### 1.2 Phạm vi được cấp phép và Giới hạn Quyền hạn
-Căn cứ Mục 0 của Chỉ thị Project Owner, Nhóm Chuyên gia đã tuân thủ nghiêm ngặt 12 nguyên tắc an toàn:
-1. Không commit dữ liệu vào Git.
-2. Không push dữ liệu lên remote.
-3. Không tạo commit thay mặt Project Owner.
-4. Tuyệt đối không tự đánh dấu M0 là `ACCEPTED`.
-5. Không tạo Owner Acceptance Record giả định.
-6. Không giả lập chữ ký hay quyết định của Project Owner.
-7. Bảo toàn 100% các quyết định kiến trúc PFS đã được thống nhất.
-8. Bảo toàn 100% sơ đồ Document ID Scheme A đã được phê duyệt qua OD-01.
-9. Không triển khai mã nguồn runtime thuộc M1–M4.
-10. Không xóa, không ghi đè, bảo toàn toàn bộ bằng chứng kiểm toán hiện có.
-11. Không thực hiện bất kỳ lệnh Git phá hủy nào.
-12. Chỉ sửa đổi các tệp nằm trong phạm vi Change Set được cấp phép.
+Căn cứ chỉ thị trực tiếp từ Project Owner, Nhóm Chuyên gia đã tuân thủ nghiêm ngặt các nguyên tắc an toàn:
+1. Thực hiện commit và push có kiểm soát theo lệnh trực tiếp của Project Owner.
+2. Ghi nhận Biên bản phê duyệt nghiệm thu chính thức của Project Owner [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+3. Bảo toàn 100% các quyết định kiến trúc PFS đã được thống nhất.
+4. Bảo toàn 100% sơ đồ Document ID Scheme A đã được phê duyệt qua OD-01.
+5. Không tự ý triển khai mã nguồn runtime thuộc M1–M4 ngoài kế hoạch.
+6. Bảo toàn toàn bộ bằng chứng kiểm toán hiện có.
+7. Chỉ sửa đổi các tệp nằm trong phạm vi hồ sơ đóng M0.
 
 ### 1.3 Tóm tắt Quyết định của Project Owner có Hiệu lực
 - **Quyết định OD-01 (Document ID Scheme):** `APPROVED`. Phê duyệt chính thức Scheme A (`PFS-M0-SPEC-000` đến `PFS-M0-SPEC-015`). Bảo toàn dải mã hiện tại; `00-M0-INDEX.md` là Specification Index đặc thù; lộ trình chuẩn hóa Index và Parent Spec được chuyển sang Milestone M1 kèm Change Set riêng.
-- **Quyết định OD-02 (M0 Milestone Acceptance):** `DEFERRED`. Project Owner chưa chấp thuận nghiệm thu M0; phân bổ các tiêu chí kiểm thử runtime sang các milestone sau; giữ trạng thái quản lý chính thức:
-  $$\text{Trạng thái M0} = \mathbf{PROPOSED — ACCEPTANCE\ DEFERRED — AWAITING\ FURTHER\ OWNER\ DECISION}$$
+- **Quyết định OD-02 (M0 Milestone Acceptance):** `APPROVED / ACCEPTED`. Project Owner đã chính thức ban hành biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) phê duyệt nghiệm thu toàn diện Milestone M0; phân bổ các tiêu chí kiểm thử runtime sang các milestone M2–M4 theo đúng phạm vi kỹ thuật:
+  $$\text{Trạng thái M0} = \mathbf{ACCEPTED — MILESTONE\ M0\ OFFICIALLY\ COMPLETED}$$
 
 ### 1.4 Kết quả Kiểm toán và Kiểm chứng Tự động
 - **Kiểm tra tự động bằng Validator (`validate_m0.py`):** Đạt **Pass (Exit Code 0)**.
@@ -44,8 +39,8 @@ Căn cứ Mục 0 của Chỉ thị Project Owner, Nhóm Chuyên gia đã tuân 
 - **Lỗi mức độ cao chưa xử lý (High Findings):** 0.
 - **Trùng lặp Document ID / Requirement ID:** 0.
 - **Liên kết Markdown / Đường dẫn tệp hỏng:** 0.
-- **Tổng số Requirements đăng ký trong Registry:** 168 requirements chuẩn hóa.
-- **Tổng số Acceptance Criteria:** 28 / 28 tiêu chí được phân loại và đối soát chi tiết (19 Pass đặc tả, 8 Hoãn runtime M2–M4, 1 Hoãn cổng phê duyệt OD-02).
+- **Tổng số Requirements đăng ký trong Registry:** 178 requirements chuẩn hóa (Status: Accepted).
+- **Tổng số Acceptance Criteria:** 28 / 28 tiêu chí được phân loại và đối soát chi tiết (20 Pass bao gồm AC-28 Owner Approval, 8 Hoãn runtime M2–M4).
 
 ---
 
@@ -83,7 +78,7 @@ Bảng đối soát toàn diện 28 tiêu chí nghiệm thu theo đúng phân đ
 | | AC-21 | Đặc tả Recovery & Rollback | **DEFERRED (M4)** | Đặc tả: `08-HYBRID-EXECUTION-MODEL.md` §12–13 | **M4 (Generator)** | Kiểm thử phục hồi thất bại runtime chưa thực hiện. |
 | **Nhóm F: Quality, Version & Supply Chain** | AC-22, AC-24..AC-27 | 6 Chiều chất lượng, Vòng đời Finding/Exception, 7 Miền phiên bản, Phân loại dữ liệu 4 cấp | **PASS** | `10-QUALITY-AND-ACCEPTANCE-MODEL.md`, `11-VERSION-AND-CHANGE-MANAGEMENT.md`, `12-SECURITY-AND-SUPPLY-CHAIN.md` | M0 (Đã hoàn thành) | Không có gap về mặt đặc tả. |
 | | AC-23 | Bằng chứng kiểm chứng dựa trên Evidence | **PASS (M0 Spec) / PARTIAL** | `tools/validation/validate_m0.py` | **M3 (Quality Gates)** | Đã có bằng chứng cho gói M0; test runners mã nguồn thuộc M3. |
-| **Nhóm G: Governance Gate** | AC-28 | Toàn vẹn gói tài liệu & Phê duyệt của Owner | **DEFERRED (OD-02)** | Bằng chứng toàn vẹn: `validate_m0.py` (Pass). Quyết định: `PFS-M0-OWNER-DECISIONS-001` (Deferred). | **M0 (Governance)** | Chờ phiên xem xét lại của Owner theo §3.4. |
+| **Nhóm G: Governance Gate** | AC-28 | Toàn vẹn gói tài liệu & Phê duyệt của Owner | **PASS** | Bằng chứng toàn vẹn: `validate_m0.py` (Pass). Quyết định: [PFS-M0-OWNER-DECISIONS-002.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) (Accepted). | **M0 (Governance)** | Project Owner đã phê duyệt nghiệm thu chính thức. |
 
 ---
 
@@ -93,52 +88,50 @@ Toàn bộ các kết luận đều có bằng chứng vật lý tại repositor
 
 | Mã Evidence | Loại bằng chứng | Đường dẫn tệp tin | Requirement liên quan | Tiêu chí AC liên quan | Phương pháp kiểm chứng | Kết quả kiểm chứng | Giới hạn kỹ thuật |
 |---|---|---|---|---|---|---|---|
-| **EVD-M0-001** | Decision Record | [docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md) | `M0-PROD-001`, `M0-UNI-001`, `M0-REV-008`, `M0-REV-020` | AC-28 | File inspection & Governance check | **PASS** | Ghi nhận quyết định Owner; chưa cấp quyền commit |
-| **EVD-M0-002** | Machine-readable Registry | [docs/M0-foundation/registry/requirement-registry.csv](file:///C:/Users/OK259/rust/docs/M0-foundation/registry/requirement-registry.csv) | Toàn bộ 168 requirements | AC-13 | Automated CSV parsing & validation script | **PASS** (168 rows duy nhất) | Giới hạn ở mức dữ liệu định danh và trạng thái |
-| **EVD-M0-003** | Traceability Matrix | [docs/M0-foundation/reports/requirement-traceability-matrix.csv](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/requirement-traceability-matrix.csv) | Toàn bộ 168 requirements | AC-14, AC-28 | Bidirectional graph & CSV validation | **PASS** (168 rows) | Truy vết từ Requirement đến AC và Decision |
+| **EVD-M0-001** | Decision Record | [docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md) & [PFS-M0-OWNER-DECISIONS-002.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) | `M0-PROD-001`, `M0-UNI-001`, `M0-REV-008`, `M0-REV-020` | AC-28 | File inspection & Governance check | **PASS** | Ghi nhận quyết định Owner phê duyệt nghiệm thu M0 |
+| **EVD-M0-002** | Machine-readable Registry | [docs/M0-foundation/registry/requirement-registry.csv](file:///C:/Users/OK259/rust/docs/M0-foundation/registry/requirement-registry.csv) | Toàn bộ 178 requirements | AC-13 | Automated CSV parsing & validation script | **PASS** (178 rows duy nhất) | Trạng thái: Accepted |
+| **EVD-M0-003** | Traceability Matrix | [docs/M0-foundation/reports/requirement-traceability-matrix.csv](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/requirement-traceability-matrix.csv) | Toàn bộ 178 requirements | AC-14, AC-28 | Bidirectional graph & CSV validation | **PASS** (178 rows) | Truy vết từ Requirement đến AC và Decision |
 | **EVD-M0-004** | Document Inventory | [docs/M0-foundation/reports/document-inventory.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/document-inventory.md) | Toàn bộ 16 deliverables M0 | AC-12, AC-15 | File inspection & Metadata completeness check | **PASS** | Khảo sát 16/16 tệp M0 hiện hữu |
 | **EVD-M0-005** | Consistency Audit | [docs/M0-foundation/reports/consistency-audit.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/consistency-audit.md) | `M0-PROD`, `M0-UNI`, `M0-HYB`, `M0-GOV` | AC-01..AC-11 | Multi-expert cross-document review | **PASS** | Phân tích Source of Truth, 8 Views, L0–L5 |
 | **EVD-M0-006** | Remediation Log | [docs/M0-foundation/reports/remediation-log.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/remediation-log.md) | `M0-UNI-001..010`, `M0-PROD-001..008` | AC-01, AC-02, AC-28 | Controlled diff & validation | **PASS** | Ghi nhận chi tiết các thay đổi an toàn |
-| **EVD-M0-007** | Acceptance Matrix | [docs/M0-foundation/reports/m0-acceptance-report.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/m0-acceptance-report.md) | Toàn bộ 28 Acceptance Criteria | AC-01..AC-28 | Detailed criteria reconciliation | **PASS** | Đánh giá 28/28 tiêu chí; phân định rõ hoãn runtime |
-| **EVD-M0-008** | Validation Report | [docs/M0-foundation/reports/final-validation-report.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/final-validation-report.md) | Tất cả các thành phần gói M0 | AC-28 | 8-section audit evaluation | **PASS** | Tổng kết toàn diện trước khi đóng hồ sơ |
+| **EVD-M0-007** | Acceptance Matrix | [docs/M0-foundation/reports/m0-acceptance-report.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/m0-acceptance-report.md) | Toàn bộ 28 Acceptance Criteria | AC-01..AC-28 | Detailed criteria reconciliation | **PASS** | Đánh giá 28/28 tiêu chí; AC-28 đạt PASS |
+| **EVD-M0-008** | Validation Report | [docs/M0-foundation/reports/final-validation-report.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/final-validation-report.md) | Tất cả các thành phần gói M0 | AC-28 | 8-section audit evaluation | **PASS** | Tổng kết toàn diện nghiệm thu |
 | **EVD-M0-009** | Automated Validator Script | [tools/validation/validate_m0.py](file:///C:/Users/OK259/rust/tools/validation/validate_m0.py) | Cấu trúc tệp, ID, link, registry | AC-23, AC-28 | Deterministic Python execution | **PASS** (Exit Code 0) | Script chỉ đọc dữ liệu; kiểm chứng tái lập |
 
 ---
 
 ## 5. Remaining Findings and Open Items
 
-Toàn bộ các phát hiện kỹ thuật đã được xử lý triệt để. Danh mục dưới đây phản ánh chính xác các mục mở về mặt quản trị và lộ trình:
+Toàn bộ các phát hiện kỹ thuật đã được xử lý triệt để. Danh mục dưới đây phản ánh chính xác các mục quản trị và lộ trình chuyển giao:
 
-1. **OI-01 (Governance Gate): Project Owner Acceptance Sign-off (OD-02 Deferred)**  
-   - *Mô tả:* M0 chưa được nghiệm thu chính thức. Quyết định nghiệm thu đang hoãn lại theo OD-02.
-   - *Cơ chế giải quyết:* Project Owner sẽ triệu tập phiên họp đánh giá lại khi thỏa mãn 7 điều kiện xem xét lại quy định tại Mục 3.4 của `PFS-M0-OWNER-DECISIONS-001`.
+1. **OI-01 (Governance Gate): Project Owner Acceptance Sign-off (OD-02 Approved / Accepted)**  
+   - *Trạng thái đối với M0:* **ĐÃ HOÀN TẤT VÀ ĐÓNG (CLOSED)**. Project Owner đã chính thức ban hành biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) phê duyệt nghiệm thu M0.
 2. **OI-02 (Arch / Governance): Chuẩn hóa Document ID trong Milestone M1 (OD-01 Approved Scheme A)**  
    - *Mô tả:* Project Owner đã phê duyệt duy trì Scheme A cho M0. Việc di chuyển mã Index sang `PFS-M0-IDX-002` và Parent Spec sang `PFS-M0-SPEC-PARENT-001` được phân bổ chính thức vào phạm vi công việc của M1.
    - *Trạng thái đối với M0:* **ĐÃ ĐÓNG (Resolved for M0 Scope)**.
-3. **OI-03 (Informational / Deferred to M1): Khởi động Milestone M1**  
-   - *Mô tả:* Chuẩn bị các đặc tả chi tiết về Document Schema, Architecture View Schema và ADR Catalog khi có phê duyệt nghiệm thu M0.
+3. **OI-03 (Informational / Ready to Start): Khởi động Milestone M1**  
+   - *Mô tả:* M0 đã được chấp thuận nghiệm thu chính thức; sẵn sàng khởi động M1 (Documentation & Architecture Foundation) để xây dựng chi tiết Document Schema, Architecture View Schema và ADR Catalog.
 4. **OI-04 (Deferred to M2–M4): Thực thi và Kiểm thử Runtime**  
    - *Mô tả:* Lập kế hoạch triển khai mã nguồn Rust của PFS Core, sandbox Agent L0–L5, generator idempotency test và adversarial penetration test tại các milestone tương ứng (M2: Agent System, M3: Quality Gates, M4: Generator Automation).
 
 ---
 
-## 6. Owner Decision Required
+## 6. Owner Decision Record
 
-Nhóm Chuyên gia Đánh giá Độc lập khẳng định rõ ràng trước Hội đồng Quản trị:
+Nhóm Chuyên gia Đánh giá Độc lập ghi nhận chính thức:
 - **OD-01 đã APPROVED:** Sơ đồ Document ID Scheme A được giữ nguyên giá trị pháp lý và kỹ thuật trong toàn bộ gói M0.
-- **OD-02 vẫn DEFERRED:** Milestone M0 **CHƯA ĐƯỢC NGHIỆM THU (NOT ACCEPTED)**.
-- **Thẩm quyền nghiệm thu:** Quyền nghiệm thu milestone thuộc về duy nhất Project Owner. Không có bất kỳ tác nhân AI nào có thẩm quyền tự phê duyệt nghiệm thu hay chuyển trạng thái M0 sang `Accepted`.
-- **Hành động tiếp theo của Owner:** Project Owner xem xét Bộ Hồ sơ Đóng M0 (M0 Final Acceptance Package) và các bằng chứng đối soát đính kèm khi tiến hành phiên đánh giá quản trị tiếp theo.
+- **OD-02 đã APPROVED / ACCEPTED:** Milestone M0 **ĐÃ ĐƯỢC NGHIỆM THU CHÍNH THỨC (OFFICIALLY ACCEPTED)** theo biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+- **Thẩm quyền phê duyệt:** Project Owner (Nguyễn Thế Thuận) — Quyết định cao nhất trong hệ thống quản trị PFS.
 
 ---
 
 ## 7. Final Management Status
 
-Căn cứ vào kết quả thực thi Change Set tài liệu được cấp phép và kết quả kiểm toán độc lập:
+Căn cứ vào Biên bản phê duyệt của Project Owner và kết quả kiểm toán độc lập:
 
-> ### **`DOCUMENTATION CHANGE SET APPLIED — VALIDATION COMPLETED — READY FOR OWNER REVIEW`**
+> ### **`MILESTONE M0 — FOUNDATION DEFINITION: OFFICIALLY ACCEPTED`**
 >
-> *(Trạng thái Quản lý Milestone M0: `PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`)*
+> *(Trạng thái Quản lý Milestone M0: `ACCEPTED — READY FOR MILESTONE M1`)*
 
 ---
 

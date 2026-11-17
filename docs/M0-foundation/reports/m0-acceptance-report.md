@@ -19,15 +19,15 @@ Tuân thủ nghiêm ngặt nguyên tắc **Evidence-Based Assurance** và cảnh
 
 ### Tổng hợp Kết quả Đánh giá:
 - **Tổng số tiêu chí đánh giá:** 28 / 28
-- **Pass (Specification & Methodology Verified):** 19 criteria (các tiêu chí kiểm chứng định nghĩa, phương pháp luận, mô hình quản trị, registry và ma trận truy vết).
+- **Pass (Specification, Methodology & Owner Approval):** 20 criteria (các tiêu chí kiểm chứng định nghĩa, phương pháp luận, mô hình quản trị, registry, ma trận truy vết và biên bản phê duyệt nghiệm thu của Project Owner).
 - **Deferred to Runtime Milestones (M2–M4):** 8 criteria (`AC-16` đến `AC-21`, `AC-23` đòi hỏi thực thi mã nguồn runtime, generator idempotency test, sandbox isolation test hoặc adversarial penetration test vốn nằm ngoài phạm vi M0).
-- **Deferred by Owner Decision (Governance Gate):** 1 criterion (`AC-28` — toàn vẹn gói tài liệu đạt kiểm chứng kỹ thuật 100%, nhưng quyết định nghiệm thu milestone được Project Owner hoãn lại theo Quyết định OD-02 tại `PFS-M0-OWNER-DECISIONS-001`).
+- **Deferred by Owner Decision (Governance Gate):** 0 criteria (Cổng AC-28 đã được Project Owner chính thức phê duyệt thông qua biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md)).
 - **Fail:** 0 criteria.
 - **Accepted with Exception:** 0 criteria (không có exception nào được lạm dụng để bỏ qua lỗi).
 
-**Kết luận sơ bộ:** Gói tài liệu M0 v1.1.0 đạt trạng thái quản lý chính thức:
-`PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`  
-Không có vi phạm kiến trúc nào cản trở việc xem xét của Project Owner; hồ sơ đã được đồng bộ hóa đầy đủ theo quyết định OD-01 (Approved) và OD-02 (Deferred).
+**Kết luận chính thức:** Gói tài liệu M0 v1.1.0 đạt trạng thái quản lý chính thức:
+$$\mathbf{ACCEPTED — MILESTONE\ M0\ OFFICIALLY\ COMPLETED}$$
+Project Owner đã ban hành biên bản phê duyệt [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md); toàn bộ hồ sơ M0 đã được nghiệm thu và gỡ phong tỏa (unblocked) để sẵn sàng khởi động Milestone M1.
 
 ---
 
@@ -99,17 +99,17 @@ Không có vi phạm kiến trúc nào cản trở việc xem xét của Project
 | **AC-25** | Version domains và compatibility | `M0-VER-001..008` | High | **PASS** | `11-VERSION-AND-CHANGE-MANAGEMENT.md` §2–5, §15 | Phân định rõ 7 miền phiên bản, ma trận trạng thái tương thích (Compatible, Breaking, Deprecated, Unknown) và nguyên tắc semantic versioning. |
 | **AC-26** | Change control | `M0-VER-009..014` | High | **PASS** | `11-VERSION-AND-CHANGE-MANAGEMENT.md` §6–11, §15 | Quy trình Change Request (CR) có cấu trúc, phân tích tác động và bảo toàn lịch sử baseline được phê duyệt. |
 | **AC-27** | Data classification và supply chain | `M0-SC-001..014` | Critical | **PASS** | `12-SECURITY-AND-SUPPLY-CHAIN.md` §2–11, §16 | Định nghĩa 4 cấp độ phân loại dữ liệu, kiểm soát luồng dữ liệu ra ngoài, truy xuất nguồn gốc template/skill và quét thành phần phụ thuộc. |
-| **AC-28** | Final package integrity và owner approval | `M0-REV-001..020` | Critical | **DEFERRED (OD-02)** | `tools/validation/validate_m0.py`, `docs/specs/PFS-M0-SPEC-001.md` §19, `docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-001.md` | Tính toàn vẹn gói tài liệu đạt 100% kiểm chứng kỹ thuật (**Pass**). Tuy nhiên, cổng nghiệm thu milestone chính thức được Project Owner hoãn lại theo Quyết định **OD-02** (`PFS-M0-OWNER-DECISIONS-001`) chờ hoàn tất các điều kiện xem xét lại §3.4. |
+| **AC-28** | Final package integrity và owner approval | `M0-REV-001..020` | Critical | **PASS** | `tools/validation/validate_m0.py`, `docs/specs/PFS-M0-SPEC-001.md` §19, [PFS-M0-OWNER-DECISIONS-002.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md) | Tính toàn vẹn gói tài liệu đạt 100% kiểm chứng kỹ thuật (**Pass**). Project Owner đã chính thức ban hành Quyết định phê duyệt nghiệm thu M0 tại [PFS-M0-OWNER-DECISIONS-002.md](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md). Tiêu chí đạt trạng thái **PASS**. |
 
 ---
 
 ## 3. Danh mục Các Mục Mở (Open Items) và Điều kiện Chuyển tiếp
 
-1. **OI-01 (Governance Gate): Project Owner Acceptance Sign-off (OD-02 Deferred)**  
-   - *Mô tả:* M0 hiện đang ở trạng thái `PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`. Cần Project Owner thực hiện phiên họp rà soát khi đủ điều kiện (§3.4) và ban hành quyết định nghiệm thu mới.
+1. **OI-01 (Governance Gate): Project Owner Acceptance Sign-off (OD-02 Approved / Accepted)**  
+   - *Trạng thái:* **ĐÃ ĐÓNG (CLOSED)**. Project Owner đã chính thức ký duyệt nghiệm thu Milestone M0 thông qua biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md). Milestone M0 đạt trạng thái **ACCEPTED**.
 2. **OI-02 (Arch / Governance): Chuẩn hóa Document ID trong Milestone M1 (OD-01 Approved Scheme A)**  
    - *Trạng thái:* **ĐÃ GIẢI QUYẾT CHO M0**. Project Owner đã phê duyệt OD-01 giữ nguyên Scheme A (`PFS-M0-SPEC-000..015`). Việc chuẩn hóa Index sang `PFS-M0-IDX-002` và Parent Spec sang `PFS-M0-SPEC-PARENT-001` được chuyển giao thực hiện trong phạm vi Milestone M1 kèm Change Set riêng.
-3. **OI-03 (Informational / Deferred to M1): Khởi động Milestone M1**  
-   - *Mô tả:* Sau khi có Owner Approval cho M0, khởi động M1 để xây dựng chi tiết Document Schema, Architecture View Schema, Interface Contracts và ADR Catalog.
+3. **OI-03 (Informational / Ready to Start): Khởi động Milestone M1**  
+   - *Mô tả:* M0 đã được Accepted, chính thức gỡ bỏ rào cản phụ thuộc để khởi động M1 (Documentation & Architecture Foundation). Tiến hành xây dựng chi tiết Document Schema, Architecture View Schema, Interface Contracts và ADR Catalog.
 4. **OI-04 (Deferred to M2–M4): Thực thi và Kiểm thử Runtime**  
    - *Mô tả:* Triển khai runtime Rust engine, sandbox isolation, generator idempotency và kiểm thử thâm nhập đối kháng tại các milestone tương ứng (M2: Agent System, M3: Quality Gates, M4: Generator Automation).

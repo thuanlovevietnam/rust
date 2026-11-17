@@ -2,8 +2,8 @@
 
 PFS is a reusable system for designing, establishing, validating and governing the foundations of new projects — combining a foundation methodology, structured project knowledge, AI-assisted engineering and deterministic (Rust) validation into one coherent system.
 
-**Current milestone:** M0 — Foundation Methodology — **v1.1.0, Proposed; awaiting independent review of the v1.1.0 package and owner approval**
-**Next milestone:** M1 — Documentation & Architecture Foundation (not started; blocked on M0 acceptance)
+**Current milestone:** M0 — Foundation Methodology — **v1.1.0, ACCEPTED (Approved by Project Owner via [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md))**
+**Next milestone:** M1 — Documentation & Architecture Foundation (Authorized to start; dependency on M0 unblocked)
 
 ## Repository Layout
 
@@ -25,11 +25,10 @@ docs/
 
 ## Status and Governance
 
-- Nothing here is **Approved**. M0 v1.1.0 is proposed, not accepted.
-- PFS-M0-SPEC-001 v1.0.0 was independently reviewed (PFS-M0-REVIEW-001); findings F01–F12 were mandatory amendments, now incorporated in v1.1.0. The v1.1.0 package itself requires independent review (15-M0-REVIEW-REPORT.md, OI-02) and owner sign-off before M0 is Accepted.
-- **M0 does not authorize implementation of the Rust engine** (SPEC-001 §19, §21).
+- Milestone M0 v1.1.0 has been **Approved and Accepted** by the Project Owner via [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+- PFS-M0-SPEC-001 v1.0.0 was independently reviewed (PFS-M0-REVIEW-001); findings F01–F12 were mandatory amendments, now incorporated and verified in v1.1.0. All 28 acceptance criteria were assessed (20 Pass including owner acceptance gate, 8 deferred to runtime milestones M2–M4).
+- **M0 does not authorize implementation of the Rust engine** (SPEC-001 §19, §21; deferred to M2–M4).
 - Changes follow the change management model (11-VERSION-AND-CHANGE-MANAGEMENT.md); AI-generated content is Proposed at best; only the authorized decision authority approves.
-- Open items blocking acceptance are tracked in `docs/M0-foundation/15-M0-REVIEW-REPORT.md` §5 (OI-01…OI-06).
 
 ## Working on This Repository
 

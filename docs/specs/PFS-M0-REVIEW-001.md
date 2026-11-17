@@ -3,7 +3,7 @@
 
 **Document ID:** PFS-M0-REVIEW-001  
 **Version:** 1.0.0  
-**Status:** Proposed — Awaiting Owner Approval  
+**Status:** Approved  
 **Parent:** PFS-M0-SPEC-001 v1.0.0  
 **Target Revision:** PFS-M0-SPEC-001 v1.1.0  
 **Review Type:** Architecture, Methodology, Governance and Security Review

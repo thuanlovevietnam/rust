@@ -15,20 +15,20 @@
 
 Nhóm chuyên gia đánh giá độc lập đã hoàn thành toàn diện quy trình kiểm toán, đối soát tính nhất quán và chuẩn bị nghiệm thu cho gói tài liệu Project Foundation System (PFS) Milestone M0 (v1.1.0).
 
-- **Overall Verdict:** `READY FOR OWNER REVIEW WITH OPEN NON-CRITICAL ITEMS`
-- **Trạng thái Quản lý M0 Chính thức:** `PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`
-- **Chỉ thị Quyết định của Project Owner (`PFS-M0-OWNER-DECISIONS-001`):**
+- **Overall Verdict:** `MILESTONE M0 OFFICIALLY ACCEPTED`
+- **Trạng thái Quản lý M0 Chính thức:** `ACCEPTED — MILESTONE M0 OFFICIALLY COMPLETED`
+- **Chỉ thị Quyết định của Project Owner (`PFS-M0-OWNER-DECISIONS-001` & `PFS-M0-OWNER-DECISIONS-002`):**
   - **OD-01 (Document ID Scheme):** `APPROVED` — Chấp thuận phương án Scheme A (`PFS-M0-SPEC-000..015`), không di chuyển ID trong M0.
-  - **OD-02 (M0 Milestone Acceptance):** `DEFERRED` — Chưa chấp thuận nghiệm thu M0; phân bổ kiểm thử runtime sang M2–M4.
-- **Số tài liệu đã kiểm tra (Documents Inspected):** 20 tài liệu (16 deliverables trong `docs/M0-foundation/`, 1 Owner Decision Record trong `docs/M0-foundation/decisions/`, 2 specifications trong `docs/specs/`, 1 registry view tại `docs/index.md`).
+  - **OD-02 (M0 Milestone Acceptance):** `APPROVED / ACCEPTED` — Project Owner đã chính thức phê duyệt nghiệm thu toàn bộ gói M0 theo biên bản [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+- **Số tài liệu đã kiểm tra (Documents Inspected):** 21 tài liệu (16 deliverables trong `docs/M0-foundation/`, 2 Owner Decision Records trong `docs/M0-foundation/decisions/`, 2 specifications trong `docs/specs/`, 1 registry view tại `docs/index.md`).
 - **Số tài liệu đã sửa đổi có kiểm soát (Documents Modified):** 3 tài liệu M0 (`03-UNIVERSAL-PROJECT-MODEL.md`, `02-PRODUCT-DEFINITION.md`, `00-M0-INDEX.md`).
-- **Số tài liệu và dữ liệu tạo mới (Deliverables Generated):** 8 tệp (1 Owner Decision Record, 1 canonical registry CSV, 1 traceability matrix CSV, 4 báo cáo kiểm toán markdown, 1 script kiểm toán tự động).
-- **Số Requirements đã đăng ký (Requirements Registered):** 168 requirements chuẩn hóa trên 13 canonical namespaces và vision layer, đã đồng bộ `decision_refs` với `PFS-M0-OWNER-DECISIONS-001`.
+- **Số tài liệu và dữ liệu tạo mới (Deliverables Generated):** 9 tệp (2 Owner Decision Records, 1 canonical registry CSV, 1 traceability matrix CSV, 4 báo cáo kiểm toán markdown, 1 script kiểm toán tự động).
+- **Số Requirements đã đăng ký (Requirements Registered):** 178 requirements chuẩn hóa trên 13 canonical namespaces và vision layer, đã đồng bộ `decision_refs` với `PFS-M0-OWNER-DECISIONS-001` và `PFS-M0-OWNER-DECISIONS-002` (Status: Accepted).
 - **Trùng lặp mã định danh nội bộ (Duplicate IDs Intra-package):** 0 (Không có trùng lặp trong gói M0).
 - **Liên kết tệp tin hỏng (Broken References / Broken Links):** 0 liên kết hỏng.
 - **Số lỗi phát hiện và xử lý (Findings Resolved):** 12 findings (1 Critical thiếu registry, 10 High mập mờ định danh legacy ID `M0-REQ-001..010`, 1 High xung đột sơ đồ mã Document ID đã được giải quyết bằng phê duyệt OD-01).
-- **Số vấn đề mở ghi nhận cho Owner (Open Items):** 1 Governance Gate (Quyết định nghiệm thu M0 trong tương lai khi hoàn thành các điều kiện xem xét lại §3.4).
-- **Tính sẵn sàng nghiệm thu (Acceptance Readiness):** Hồ sơ tài liệu và Change Set đã được áp dụng đầy đủ; gói tài liệu sẵn sàng ở mức độ cao nhất cho Project Owner xem xét.
+- **Số vấn đề mở ghi nhận cho Owner (Open Items):** 0 (Cổng phê duyệt nghiệm thu M0 đã được đóng hoàn tất bởi Project Owner).
+- **Tính sẵn sàng nghiệm thu (Acceptance Readiness):** Hoàn thành xuất sắc toàn bộ yêu cầu; Milestone M0 được nghiệm thu chính thức.
 
 ---
 
@@ -160,14 +160,15 @@ Tôn trọng ranh giới phân định: Vision thuộc SPEC-001/002; Product Def
 
 ## H. Final Recommendation
 
-Căn cứ vào kết quả kiểm toán độc lập, quyết định của Project Owner và bằng chứng kỹ thuật khách quan, Nhóm Chuyên gia đưa ra khuyến nghị chính thức:
+Căn cứ vào kết quả kiểm toán độc lập, quyết định phê duyệt chính thức của Project Owner và bằng chứng kỹ thuật khách quan, Nhóm Chuyên gia công bố phán quyết chính thức:
 
-### **`READY FOR OWNER REVIEW WITH OPEN NON-CRITICAL ITEMS`**
+### **`MILESTONE M0 — FOUNDATION DEFINITION: OFFICIALLY ACCEPTED`**
 
-- **Trạng thái quản lý M0 hiện hành:** `PROPOSED — ACCEPTANCE DEFERRED — AWAITING FURTHER OWNER DECISION`
-- **Tình trạng Change Set:** Đã áp dụng 100% Documentation Change Set được cấp phép; toàn bộ các kiểm tra kỹ thuật đạt Pass.
+- **Trạng thái quản lý M0 hiện hành:** `ACCEPTED — MILESTONE M0 OFFICIALLY COMPLETED`
+- **Tình trạng Phê duyệt của Owner:** Đã được Project Owner ký duyệt chính thức thông qua [PFS-M0-OWNER-DECISIONS-002](file:///C:/Users/OK259/rust/docs/M0-foundation/decisions/PFS-M0-OWNER-DECISIONS-002.md).
+- **Tính sẵn sàng Milestone M1:** M1 (Documentation & Architecture Foundation) chính thức đủ điều kiện khởi động (unblocked).
 
-### Các hành động tiếp theo dành cho Project Owner:
-1. **Ghi nhận Quyết định OD-01 đã được thực thi:** Phương án Scheme A (`PFS-M0-SPEC-000..015`) đã được bảo toàn nguyên vẹn trong toàn bộ gói tài liệu và ma trận truy vết; chuẩn hóa Parent Spec và Index được hoãn đến phạm vi M1.
-2. **Theo dõi Quyết định OD-02 (Acceptance Deferred):** Duy trì trạng thái hoãn nghiệm thu M0 cho đến khi các điều kiện xem xét lại tại Mục 3.4 của `PFS-M0-OWNER-DECISIONS-001` được thỏa mãn (bao gồm việc triển khai và kiểm thử runtime tại các milestone M2, M3, M4).
-3. **Xem xét Bộ Hồ sơ Đóng M0 (M0 Closure Package):** Đánh giá báo cáo [M0-CLOSURE-REPORT.md](file:///C:/Users/OK259/rust/docs/M0-foundation/reports/M0-CLOSURE-REPORT.md) và các bằng chứng đối soát trước khi ban hành quyết định quản trị tiếp theo.
+### Các hành động chuyển tiếp sang Milestone M1:
+1. **Khởi động Milestone M1:** Thành lập nhóm kiến trúc tài liệu để xây dựng chi tiết Document Schema, Architecture View Schema, Interface Contracts và ADR Catalog.
+2. **Kế hoạch di chuyển Document ID:** Chuẩn hóa Document ID Scheme theo định hướng OD-01 (`PFS-M0-IDX-002` cho Index và `PFS-M0-SPEC-PARENT-001` cho Parent Spec) thông qua Change Set của M1.
+3. **Kế hoạch kiểm chứng Runtime:** Chuẩn bị đặc tả chi tiết cho các bài kiểm tra thực thi runtime của Agent System (M2), Quality Gates (M3) và Generator Automation (M4).

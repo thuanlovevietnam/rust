@@ -5,7 +5,7 @@
 | Document ID | PFS-M0-SPEC-015 |
 | Tên | M0 Consolidated Architecture and Consistency Review |
 | Version | 1.1.0 |
-| Status | Proposed — Awaiting Owner Approval |
+| Status | Accepted |
 | Review scope | M0 Foundation Documentation Package |
 | Review type | Architecture, governance, security và consistency review |
 | Classification | Internal |
@@ -526,4 +526,4 @@ Các resolution đã được đưa vào specification và được phân bổ t
 | Security Reviewer | Pending | Pending | Pending | Review |
 | Independent Auditor | Pending | Pending | Pending | Independent review |
 
-**Document status:** Proposed — Awaiting Owner Approval.
+**Document status:** Accepted.
