@@ -1,0 +1,38 @@
+# Project Foundation System (PFS)
+
+PFS is a reusable system for designing, establishing, validating and governing the foundations of new projects — combining a foundation methodology, structured project knowledge, AI-assisted engineering and deterministic (Rust) validation into one coherent system.
+
+**Current milestone:** M0 — Foundation Methodology — **v1.1.0, Proposed; awaiting independent review of the v1.1.0 package and owner approval**
+**Next milestone:** M1 — Documentation & Architecture Foundation (not started; blocked on M0 acceptance)
+
+## Repository Layout
+
+```
+docs/
+  specs/PFS-M0-SPEC-001.md        Parent spec — v1.1.0 (authority for M0)
+  specs/PFS-M0-REVIEW-001.md      Independent review & mandatory amendment spec (F01–F12)
+  M0-foundation/                  M0 documentation package (00-M0-INDEX … 15-M0-REVIEW-REPORT)
+  archive/m0-v1.0.0/              Superseded v1.0.0 spec and D01–D12 deliverables (history)
+  index.md                        Documentation index (authoritative registry)
+```
+
+## Reading Order
+
+1. `docs/specs/PFS-M0-SPEC-001.md` (v1.1.0) — the authority.
+2. `docs/specs/PFS-M0-REVIEW-001.md` — what changed and why.
+3. `docs/M0-foundation/00-M0-INDEX.md` — package registry and v1.0.0 → v1.1.0 mapping.
+4. Package files 01–15 in order; `14-M0-ACCEPTANCE-CRITERIA.md` for the AC-01..28 catalog; `15-M0-REVIEW-REPORT.md` for disposition and open items.
+
+## Status and Governance
+
+- Nothing here is **Approved**. M0 v1.1.0 is proposed, not accepted.
+- PFS-M0-SPEC-001 v1.0.0 was independently reviewed (PFS-M0-REVIEW-001); findings F01–F12 were mandatory amendments, now incorporated in v1.1.0. The v1.1.0 package itself requires independent review (15-M0-REVIEW-REPORT.md, OI-02) and owner sign-off before M0 is Accepted.
+- **M0 does not authorize implementation of the Rust engine** (SPEC-001 §19, §21).
+- Changes follow the change management model (11-VERSION-AND-CHANGE-MANAGEMENT.md); AI-generated content is Proposed at best; only the authorized decision authority approves.
+- Open items blocking acceptance are tracked in `docs/M0-foundation/15-M0-REVIEW-REPORT.md` §5 (OI-01…OI-06).
+
+## Working on This Repository
+
+- SPEC-001 is read-only except through the change process; package files must not redefine it normatively.
+- Keep document IDs, statuses and cross-references consistent (integrity rules: 07-ARTIFACT-AND-TRACEABILITY-MODEL.md §7).
+- M1 work must comply with SPEC-001 v1.1.0 and the M1 dependency list (13-MILESTONE-ROADMAP.md §3).
