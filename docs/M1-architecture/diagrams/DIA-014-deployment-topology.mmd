@@ -1,0 +1,36 @@
+flowchart TD
+    title["PFS Three-Topology Deployment Architecture (DIA-014)"]
+
+    subgraph Topology1 ["Topology 1: Local Developer CLI Mode (Single User)"]
+        CLI_BIN["pfs Static Binary (Rust)<br/>~25MB standalone"]
+        SQLITE_DB[(".pfs/state.db<br/>(Embedded SQLite WAL)")]
+        LOCAL_CAS[(".pfs/cas/objects/<br/>(Local Directory CAS)")]
+        CLI_BIN --> SQLITE_DB
+        CLI_BIN --> LOCAL_CAS
+    end
+
+    subgraph Topology2 ["Topology 2: Team Workgroup Daemon Mode (LAN)"]
+        TEAM_CLIENT["Team CLI / Web Browser"]
+        DAEMON["pfsd Daemon Process<br/>HTTP/WS 0.0.0.0:8080"]
+        SHARED_PG[("PostgreSQL 16+<br/>Shared DB")]
+        SHARED_NFS[("Shared Storage / MinIO<br/>CAS Store")]
+        TEAM_CLIENT -->|HTTP / WebSocket| DAEMON
+        DAEMON --> SHARED_PG
+        DAEMON --> SHARED_NFS
+    end
+
+    subgraph Topology3 ["Topology 3: Enterprise Cloud Cluster (HA Multi-Tenant)"]
+        CLOUD_USERS["Enterprise Users (OIDC / SSO)"]
+        ALB["Application Load Balancer (HTTPS)"]
+        POD1["PFS Pod 1 (Stateless)"]
+        POD2["PFS Pod 2 (Stateless)"]
+        RDS_PG[("Amazon Aurora PostgreSQL<br/>Multi-AZ Clustered")]
+        S3_CAS[("AWS S3 / GCS Bucket<br/>AES-256 CAS Storage")]
+        CLOUD_USERS --> ALB
+        ALB --> POD1
+        ALB --> POD2
+        POD1 --> RDS_PG
+        POD2 --> RDS_PG
+        POD1 --> S3_CAS
+        POD2 --> S3_CAS
+    end

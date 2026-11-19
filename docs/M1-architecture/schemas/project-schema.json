@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/schemas/v1/project-schema.json",
+  "title": "PFS Project Metamodel Schema",
+  "description": "Formal schema for PFS Project aggregate and context",
+  "type": "object",
+  "required": ["project_id", "name", "project_type", "lifecycle_stage", "created_at", "classification"],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$",
+      "description": "ULID identifier for the project"
+    },
+    "organization_id": {
+      "type": "string",
+      "description": "Tenant organization identifier"
+    },
+    "workspace_id": {
+      "type": "string",
+      "description": "Workspace identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "description": {
+      "type": "string"
+    },
+    "project_type": {
+      "type": "string",
+      "enum": ["SoftwareProduct", "BusinessStrategy", "AcademicResearch", "OperationsGovernance", "CustomDomain"]
+    },
+    "lifecycle_stage": {
+      "type": "string",
+      "enum": [
+        "STG-01-INIT", "STG-02-DISC", "STG-03-REQS", "STG-04-ARCH",
+        "STG-05-GOVN", "STG-06-DOCS", "STG-07-AGNT", "STG-08-QUAL",
+        "STG-09-BOOT", "STG-10-AUDT", "STG-11-BASE"
+      ]
+    },
+    "classification": {
+      "type": "string",
+      "enum": ["Public", "Internal", "Confidential", "Restricted"]
+    },
+    "owner_principal": {
+      "type": "string",
+      "description": "Principal ID of Project Owner (L5 Authority)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false
+}

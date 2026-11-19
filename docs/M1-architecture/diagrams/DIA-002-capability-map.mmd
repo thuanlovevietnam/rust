@@ -1,0 +1,23 @@
+graph TD
+    title[PFS Product Capability Map - DIA-002]
+
+    subgraph CoreCapabilities ["Core System Capabilities"]
+        CAP_GOV["Governance & Decisions<br/>• cap.core.gov.authority<br/>• cap.core.gov.decisions"]
+        CAP_QLT["Quality & Traceability<br/>• cap.core.qlt.evidence_gates<br/>• cap.core.qlt.traceability"]
+        CAP_SEC["Security & Redaction<br/>• cap.core.sec.stride_threat<br/>• cap.core.sec.secret_redact"]
+        CAP_GEN["Idempotent Generator<br/>• cap.core.gen.idempotent_safe<br/>• cap.core.gen.cas_storage"]
+    end
+
+    subgraph DomainCapabilities ["Domain-Specific Capabilities"]
+        CAP_SW["Software Domain<br/>• cap.domain.software.rust_core<br/>• cap.domain.software.api_spec<br/>• cap.domain.software.c4_model"]
+        CAP_BIZ["Business Domain<br/>• cap.domain.business.canvas<br/>• cap.domain.business.financial_model<br/>• cap.domain.business.compliance"]
+        CAP_RES["Research Domain<br/>• cap.domain.research.hypothesis<br/>• cap.domain.research.dataset_provenance<br/>• cap.domain.research.peer_review"]
+        CAP_EXT["Custom Extension<br/>• cap.ext.custom.user_defined<br/>• cap.ext.custom.iot_topology"]
+    end
+
+    subgraph OperationsCapabilities ["Operations & Platform"]
+        CAP_OPS["Deployment & Telemetry<br/>• cap.core.ops.container_deploy<br/>• cap.core.ops.telemetry_otlp<br/>• cap.core.ops.zero_downtime"]
+    end
+
+    CoreCapabilities --> DomainCapabilities
+    DomainCapabilities --> OperationsCapabilities

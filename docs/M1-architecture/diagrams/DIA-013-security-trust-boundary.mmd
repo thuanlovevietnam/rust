@@ -1,0 +1,35 @@
+flowchart TD
+    title["PFS Security Trust Boundaries & Attack Surfaces (DIA-013)"]
+
+    subgraph UntrustedZone ["Untrusted External Zone"]
+        Attacker["Potential Threat Actor / Prompt Injector"]
+        User["External User / Client Request"]
+    end
+
+    subgraph TrustBoundary1 ["TRUST BOUNDARY 1 (Client to Application)"]
+        API_GW["API Gateway & Input Sanitizer<br/>• Schema Validation<br/>• Path Traversal Strip"]
+    end
+
+    subgraph TrustBoundary2 ["TRUST BOUNDARY 2 (Application to Domain Core)"]
+        PEP["Policy Enforcement Point (Rust)<br/>• L0-L5 Deny-by-Default<br/>• Separation of Duties<br/>• Ed25519 Signatures"]
+        CORE_LOGIC["Pure Domain Aggregates & State Machine"]
+    end
+
+    subgraph TrustBoundary3 ["TRUST BOUNDARY 3 (PFS Core to External AI)"]
+        SEC_FILTER["Secret Redaction Filter<br/>• Strip API Keys / Passwords<br/>• Zero Data Retention Header"]
+        AI_PROVIDER["External AI Provider<br/>(OpenAI / Anthropic / Gemini)"]
+    end
+
+    subgraph TrustBoundary4 ["TRUST BOUNDARY 4 (Core to Tool Sandbox)"]
+        TOOL_GW["Tool Allowlist Gate"]
+        WASM_SANDBOX["Isolated WASM / Subprocess Jail<br/>• Read-only Root FS<br/>• Air-gapped (No Net)<br/>• 5s CPU / 128MB RAM Cap"]
+    end
+
+    User --> API_GW
+    Attacker -.->|Prompt Injection / Path Traversal| API_GW
+    API_GW --> PEP
+    PEP --> CORE_LOGIC
+    CORE_LOGIC --> SEC_FILTER
+    SEC_FILTER --> AI_PROVIDER
+    CORE_LOGIC --> TOOL_GW
+    TOOL_GW --> WASM_SANDBOX

@@ -43,6 +43,17 @@ Authoritative registry of PFS documents. Statuses: Draft / Proposed / In Review 
 | PFS-M0-SPEC-014 | docs/M0-foundation/14-M0-ACCEPTANCE-CRITERIA.md | Accepted |
 | PFS-M0-SPEC-015 | docs/M0-foundation/15-M0-REVIEW-REPORT.md | Accepted |
 
+## Milestone M1 Architecture Package (Current — Ready for Owner Review)
+
+| ID | Title | Version | Status | Path |
+|---|---|---|---|---|
+| PFS-M1-DOC-000 | M1 Architecture Index & Master Package Registry | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/00-governance/00-M1-INDEX.md |
+| PFS-M1-DOC-001..028 | M1 Core Architecture Specification (29 Docs) | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/ |
+| ADR-001..020 | Architecture Decision Records Catalog (20 ADRs) | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/decisions/ |
+| DIA-001..016 | Canonical Architecture Diagrams (16 Diagrams) | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/diagrams/ |
+| PFS-M1-REP-001 | M1 Architecture Closure Report | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/reports/M1-CLOSURE-REPORT.md |
+| PFS-M1-REP-002 | M1 Final Validation Report (Validator Pass) | 1.0.0 | Proposed — Ready for Owner Review | docs/M1-architecture/reports/M1-FINAL-VALIDATION-REPORT.md |
+
 ## Archive (superseded, retained for history)
 
 | Version | Path | Superseded by |

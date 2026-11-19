@@ -1,0 +1,53 @@
+graph TD
+    title[PFS Core Dependency & Crate Hierarchy - DIA-005]
+
+    subgraph PresentationLayer ["Layer 5: Presentation & Binaries"]
+        CLI["pfs-cli (CLI Binary)"]
+        SERVER["pfs-server (Daemon Server)"]
+    end
+
+    subgraph InfrastructureLayer ["Layer 4: Infrastructure & Adapters"]
+        INFRA["pfs-infra (SQLx, AI Gateway, Sandbox)"]
+    end
+
+    subgraph ApplicationLayer ["Layer 3: Application & Coordination"]
+        APP["pfs-app (Application Services & CQRS)"]
+        AGENT["pfs-agent (Agent Orchestrator)"]
+        GEN["pfs-generator (Staged Generator)"]
+    end
+
+    subgraph DomainPolicyLayer ["Layer 2: Domain Services & Policies"]
+        GOV["pfs-governance (L0-L5 Policy Engine)"]
+        WKF["pfs-workflow (State Machine)"]
+        QLT["pfs-quality (Quality Gates & Evidence)"]
+    end
+
+    subgraph PureDomainCore ["Layer 1: Pure Domain Core (Zero IO)"]
+        CORE["pfs-core (Entities, Value Objects, Aggregates)"]
+    end
+
+    CLI --> APP
+    CLI --> INFRA
+    SERVER --> APP
+    SERVER --> INFRA
+
+    APP --> GOV
+    APP --> WKF
+    APP --> QLT
+    APP --> CORE
+
+    AGENT --> APP
+    AGENT --> CORE
+    GEN --> APP
+    GEN --> QLT
+    GEN --> CORE
+
+    GOV --> CORE
+    WKF --> GOV
+    WKF --> CORE
+    QLT --> GOV
+    QLT --> CORE
+
+    INFRA --> APP
+    INFRA --> GOV
+    INFRA --> CORE

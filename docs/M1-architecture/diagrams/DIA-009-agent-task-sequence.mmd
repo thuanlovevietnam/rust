@@ -1,0 +1,30 @@
+sequenceDiagram
+    autonumber
+    title Multi-Agent Task Planning & Execution Sequence (DIA-009)
+
+    participant WKF as Workflow Engine
+    participant PLN as Task Planner
+    participant RTR as Agent Router
+    participant CTX as Context Builder & Sanitizer
+    participant GWY as AI Provider Gateway
+    participant LLM as External AI Model
+    participant TOL as Tool Gateway & Sandbox
+    participant VAL as Result Validator
+
+    WKF->>PLN: Kích hoạt Stage (vd: STG-04-ARCH)
+    PLN->>PLN: Phân rã mục tiêu thành Task Contracts DAG
+    PLN->>RTR: Định tuyến Task_01 (C4 Architecture Design)
+    RTR->>CTX: Yêu cầu ngữ cảnh cho Task_01
+    CTX->>CTX: Lọc dữ liệu mật (Secret Redaction) & Thu gọn ngữ cảnh
+    CTX->>GWY: Gửi UniversalLLMRequest (System Prompt + Redacted Context)
+    GWY->>LLM: Gửi HTTPS TLS 1.3 prompt (JSON Schema mode)
+    LLM-->>GWY: Trả về Tool Call Request (vd: validate_mermaid)
+    GWY->>TOL: Chuyển tiếp Tool Call
+    TOL->>TOL: Kiểm tra Allowlist & Path Traversal (chroot)
+    TOL->>TOL: Thực thi trong WASM Sandbox
+    TOL-->>GWY: Kết quả thực thi công cụ an toàn
+    GWY->>LLM: Gửi kết quả tool cho LLM tiếp tục suy luận
+    LLM-->>GWY: Hoàn tất UniversalLLMResponse
+    GWY->>VAL: Gửi kết quả thô để kiểm định xác định
+    VAL->>VAL: Đối soát với JSON Schema đầu ra
+    VAL-->>WKF: Task_01 Thành công (Lưu kết quả & giải phóng lease)

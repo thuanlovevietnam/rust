@@ -1,0 +1,30 @@
+flowchart TD
+    title["PFS Failure Detection, Circuit Breaker & Compensation Flow (DIA-016)"]
+
+    START(["Start Execution Step"]) --> EXEC["Execute Step (LLM Call / Tool Exec / CAS Write / File Apply)"]
+    
+    EXEC --> CHECK_SUCCESS{"Execution Successful?"}
+
+    CHECK_SUCCESS -- YES --> LOG_SAGA["Record Step Success in Write-Ahead Saga / Journal Log"]
+    LOG_SAGA --> ADVANCE(["Advance to Next Step"])
+
+    CHECK_SUCCESS -- NO --> DETECT_TYPE{"Failure Type?"}
+
+    DETECT_TYPE -- "AI Provider 503 / Timeout" --> CB_CHECK{"Circuit Breaker Open?"}
+    CB_CHECK -- NO --> RETRY["Exponential Backoff with Full Jitter (Max 3 attempts)"]
+    RETRY --> EXEC
+    CB_CHECK -- YES --> FALLBACK["Trigger Secondary Fallback Model (Anthropic / Local vLLM)"]
+    FALLBACK --> EXEC
+
+    DETECT_TYPE -- "Tool Crash / Script Error" --> LOG_ERROR["Record Error in Task Execution Record"]
+    LOG_ERROR --> SAGA_COMP["Initiate Saga Compensation"]
+
+    DETECT_TYPE -- "File Conflict / Disk Full / Crash" --> JRN_RECOVER["Read Durable Journal (.pfs/journal/)"]
+    JRN_RECOVER --> ROLLBACK_FILES["Compensate: Restore Original Files from .pfs/backup/"]
+    ROLLBACK_FILES --> SAGA_COMP
+
+    SAGA_COMP --> CLEAN_STAGING["Compensate: Delete Ephemeral Files in Staging Area"]
+    CLEAN_STAGING --> RELEASE_LEASE["Compensate: Release Task Lease & Clear Temp Tokens"]
+    RELEASE_LEASE --> RESTORE_CP["Compensate: Restore State Machine to Last Safe Checkpoint"]
+    RESTORE_CP --> NOTIFY_OP["Emit Alert & Pause Workflow for Human Operator Review"]
+    NOTIFY_OP --> HALT(["Workflow Suspended Safely — Zero Data Corruption"])

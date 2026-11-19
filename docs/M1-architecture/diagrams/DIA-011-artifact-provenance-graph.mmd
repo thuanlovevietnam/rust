@@ -1,0 +1,43 @@
+graph BT
+    title[Artifact Provenance & Traceability Merkle DAG - DIA-011]
+
+    subgraph Layer0 ["Level 0: Intent & Genesis"]
+        INT["Project Intent (ULID_01)<br/>Hash: 8f4a..."]
+    end
+
+    subgraph Layer1 ["Level 1: Specifications"]
+        REQ["Requirement Spec (ULID_02)<br/>Hash: 3c1b...<br/>DerivedFrom: INT"]
+        DEC["Architecture Decision ADR-001 (ULID_03)<br/>Hash: d92e...<br/>DerivedFrom: REQ"]
+    end
+
+    subgraph Layer2 ["Level 2: Architecture & Contracts"]
+        ARCH["C4 Architecture Spec (ULID_04)<br/>Hash: 4a7f...<br/>DerivedFrom: [REQ, DEC]"]
+        API["OpenAPI Contract (ULID_05)<br/>Hash: 1e8c...<br/>DerivedFrom: ARCH"]
+    end
+
+    subgraph Layer3 ["Level 3: Generated Artifacts"]
+        CODE["Rust Crate Source (ULID_06)<br/>Hash: 7b2d...<br/>DerivedFrom: [API, ARCH]"]
+        DOCS["User Guide Markdown (ULID_07)<br/>Hash: e51a...<br/>DerivedFrom: ARCH"]
+    end
+
+    subgraph Layer4 ["Level 4: Quality & Evidence"]
+        EVI["Test & Lint Evidence (ULID_08)<br/>Hash: 9f0c...<br/>Verifies: [CODE, DOCS]"]
+    end
+
+    subgraph Layer5 ["Level 5: Baseline Merkle Root"]
+        ROOT["Foundation Baseline Release v1.0.0<br/>Merkle Root Hash: e3b0c44298fc1c149afbf4c8...<br/>Signed by Project Owner"]
+    end
+
+    REQ --> INT
+    DEC --> REQ
+    ARCH --> REQ
+    ARCH --> DEC
+    API --> ARCH
+    CODE --> API
+    CODE --> ARCH
+    DOCS --> ARCH
+    EVI --> CODE
+    EVI --> DOCS
+    ROOT --> EVI
+    ROOT --> CODE
+    ROOT --> DOCS

@@ -1,0 +1,30 @@
+Module_ID,Module_Name,Layer,Crate_Package,Direct_Dependencies,Afferent_Coupling_Ca,Efferent_Coupling_Ce,Instability_Metric_I,Cycle_Status
+MOD-01-IAM,Identity and Access,Domain Core,pfs-core,None,5,0,0.00,Acyclic
+MOD-02-ORG,Organization and Workspace,Domain Core,pfs-core,MOD-01-IAM,4,1,0.20,Acyclic
+MOD-03-PRJ,Project Management,Domain Core,pfs-core,MOD-02-ORG,6,1,0.14,Acyclic
+MOD-04-INT,Project Intent,Domain Core,pfs-core,MOD-03-PRJ,3,1,0.25,Acyclic
+MOD-05-PRF,Project Profile,Domain Core,pfs-core,MOD-03-PRJ,4,1,0.20,Acyclic
+MOD-06-CAP,Capability Registry,Domain Core,pfs-core,MOD-05-PRF,4,1,0.20,Acyclic
+MOD-07-FND,Foundation Management,Domain Core,pfs-core,MOD-03-PRJ,3,1,0.25,Acyclic
+MOD-08-REQ,Requirement Management,Domain Core,pfs-core,MOD-03-PRJ;MOD-06-CAP,4,2,0.33,Acyclic
+MOD-09-DEC,Decision Management,Domain Core,pfs-core,MOD-08-REQ;MOD-03-PRJ,4,2,0.33,Acyclic
+MOD-10-GOV,Governance Management,Domain Core,pfs-governance,MOD-01-IAM;MOD-03-PRJ,3,2,0.40,Acyclic
+MOD-11-POL,Policy Engine,Domain Core,pfs-governance,MOD-10-GOV;MOD-01-IAM,4,2,0.33,Acyclic
+MOD-12-WKF,Workflow Engine,Application,pfs-workflow,MOD-07-FND;MOD-11-POL,3,2,0.40,Acyclic
+MOD-13-TSK,Task Management,Application,pfs-app,MOD-12-WKF;MOD-11-POL,3,2,0.40,Acyclic
+MOD-14-AGT,Agent Registry,Application,pfs-agent,MOD-11-POL;MOD-06-CAP,2,2,0.50,Acyclic
+MOD-15-ORC,Agent Orchestrator,Application,pfs-agent,MOD-13-TSK;MOD-14-AGT,2,2,0.50,Acyclic
+MOD-16-GWY,AI Provider Gateway,Infrastructure,pfs-infra,MOD-15-ORC,1,1,0.50,Acyclic
+MOD-17-TOL,Tool Gateway and Sandbox,Infrastructure,pfs-infra,MOD-15-ORC;MOD-11-POL,1,2,0.67,Acyclic
+MOD-18-CTX,Context Management,Application,pfs-agent,MOD-08-REQ;MOD-09-DEC,1,2,0.67,Acyclic
+MOD-19-KNW,Knowledge Management,Domain Core,pfs-core,MOD-02-ORG,1,1,0.50,Acyclic
+MOD-20-ART,Artifact Management,Domain Core,pfs-core,MOD-03-PRJ;MOD-08-REQ,4,2,0.33,Acyclic
+MOD-21-TPL,Template Management,Domain Core,pfs-core,MOD-06-CAP,2,1,0.33,Acyclic
+MOD-22-GEN,Foundation Generator,Application,pfs-generator,MOD-20-ART;MOD-21-TPL;MOD-11-POL,1,3,0.75,Acyclic
+MOD-23-QLT,Quality Engine,Domain Core,pfs-quality,MOD-08-REQ;MOD-09-DEC;MOD-20-ART,2,3,0.60,Acyclic
+MOD-24-EVI,Evidence Management,Domain Core,pfs-quality,MOD-20-ART;MOD-23-QLT,1,2,0.67,Acyclic
+MOD-25-VER,Version and Compatibility,Domain Core,pfs-core,MOD-07-FND,1,1,0.50,Acyclic
+MOD-26-EVT,Event and Job Infra,Infrastructure,pfs-infra,None,3,0,0.00,Acyclic
+MOD-27-AUD,Audit and Observability,Infrastructure,pfs-infra,MOD-01-IAM;MOD-26-EVT,1,2,0.67,Acyclic
+MOD-28-IO,Import Export Subsystem,Application,pfs-app,MOD-07-FND;MOD-20-ART,1,2,0.67,Acyclic
+MOD-29-INTG,API and Integration,Presentation,"pfs-cli, pfs-server",MOD-12-WKF;MOD-22-GEN;MOD-23-QLT,0,3,1.00,Acyclic

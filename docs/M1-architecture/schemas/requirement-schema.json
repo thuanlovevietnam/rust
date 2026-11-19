@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/schemas/v1/requirement-schema.json",
+  "title": "PFS Requirement Entity Schema",
+  "description": "Formal schema for PFS Requirements DAG nodes",
+  "type": "object",
+  "required": ["req_id", "project_id", "title", "statement", "category", "priority", "verification_method", "lifecycle_status"],
+  "properties": {
+    "req_id": {
+      "type": "string",
+      "pattern": "^[A-Z0-9]+-[A-Z0-9]+-[0-9]{3,}$"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 150
+    },
+    "statement": {
+      "type": "string",
+      "minLength": 10
+    },
+    "category": {
+      "type": "string",
+      "enum": ["Functional", "Quality", "Constraint", "Assumption", "Risk"]
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["Critical", "High", "Medium", "Low"]
+    },
+    "source_reference": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "verification_method": {
+      "type": "string",
+      "enum": ["Inspection", "Analysis", "Demonstration", "AutomatedTest"]
+    },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1
+    },
+    "derives_from": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "conflicts_with": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "lifecycle_status": {
+      "type": "string",
+      "enum": ["Draft", "Proposed", "InReview", "Approved", "Superseded", "Rejected"]
+    }
+  },
+  "additionalProperties": false
+}

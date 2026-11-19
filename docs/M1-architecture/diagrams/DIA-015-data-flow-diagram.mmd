@@ -1,0 +1,17 @@
+flowchart LR
+    title["End-to-End Data Flow: From Intent to Foundation Package (DIA-015)"]
+
+    INTENT["1. Raw Project Intent<br/>(User Brief / Prompt)"] 
+    --> PROFILE["2. Project Profile &<br/>Capability Set"]
+    --> REQS["3. Requirements DAG &<br/>Decision Registry"]
+    --> ARCH["4. Architecture Specs &<br/>C4 Diagrams"]
+    --> GOV["5. Governance Model &<br/>L0-L5 Authority"]
+    --> TEMPLATES["6. Generator Engine &<br/>Staging Preview"]
+    --> GATES["7. Quality Gates &<br/>Evidence Validation"]
+    --> COMMIT["8. Atomic Commit &<br/>Ownership Manifest"]
+    --> PACKAGE["9. Signed Foundation<br/>Package v1.0.0"]
+
+    classDef step fill:#e8eaf6,stroke:#3f51b5,stroke-width:2px;
+    classDef endstep fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px;
+    class INTENT,PROFILE,REQS,ARCH,GOV,TEMPLATES,GATES,COMMIT step;
+    class PACKAGE endstep;

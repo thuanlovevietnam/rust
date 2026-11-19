@@ -1,0 +1,20 @@
+# PFS Architecture Diagrams Catalog (16 Canonical Architecture Diagrams)
+
+| Diagram ID | Tên sơ đồ | Loại sơ đồ Mermaid | Tài liệu kiến trúc liên quan | Tệp nguồn Mermaid |
+|---|---|---|---|---|
+| **DIA-001** | PFS System Context Diagram | C4Context | `05-SYSTEM-CONTEXT-AND-STAKEHOLDERS.md` | [DIA-001-system-context.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-001-system-context.mmd) |
+| **DIA-002** | PFS Product Capability Map | mindmap / graph TD | `06-CAPABILITY-ARCHITECTURE.md` | [DIA-002-capability-map.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-002-capability-map.mmd) |
+| **DIA-003** | C4 Container Diagram | C4Container | `11-LOGICAL-ARCHITECTURE.md` | [DIA-003-c4-container.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-003-c4-container.mmd) |
+| **DIA-004** | C4 Component Diagram (Rust Crates) | C4Component | `12-MODULE-AND-DEPENDENCY-ARCHITECTURE.md` | [DIA-004-c4-component.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-004-c4-component.mmd) |
+| **DIA-005** | Core Dependency & Crate Hierarchy | graph TD | `13-CORE-AND-APPLICATION-ARCHITECTURE.md` | [DIA-005-dependency-graph.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-005-dependency-graph.mmd) |
+| **DIA-006** | Universal Domain Entity-Relationship Model | erDiagram | `07-UNIVERSAL-DOMAIN-MODEL.md` | [DIA-006-universal-domain-model.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-006-universal-domain-model.mmd) |
+| **DIA-007** | 11-Stage Project Foundation Lifecycle | graph LR | `08-PROJECT-AND-FOUNDATION-LIFECYCLE.md` | [DIA-007-foundation-lifecycle.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-007-foundation-lifecycle.mmd) |
+| **DIA-008** | Foundation Workflow Execution State Machine | stateDiagram-v2 | `15-WORKFLOW-AND-STATE-MACHINES.md` | [DIA-008-workflow-state-machine.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-008-workflow-state-machine.mmd) |
+| **DIA-009** | Multi-Agent Task Planning & Execution Sequence | sequenceDiagram | `16-AGENT-ORCHESTRATION-ARCHITECTURE.md` | [DIA-009-agent-task-sequence.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-009-agent-task-sequence.mmd) |
+| **DIA-010** | Governance & Authority Approval Sequence | sequenceDiagram | `19-GOVERNANCE-AND-AUTHORIZATION-ARCHITECTURE.md` | [DIA-010-governance-approval-sequence.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-010-governance-approval-sequence.mmd) |
+| **DIA-011** | Artifact Provenance & Traceability Merkle DAG | graph BT | `10-ARTIFACT-KNOWLEDGE-AND-VERSIONING.md` | [DIA-011-artifact-provenance-graph.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-011-artifact-provenance-graph.mmd) |
+| **DIA-012** | Staged Foundation Generator Execution Sequence | sequenceDiagram | `18-GENERATION-AND-RECOVERY-ARCHITECTURE.md` | [DIA-012-generator-sequence.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-012-generator-sequence.mmd) |
+| **DIA-013** | Security Trust Boundaries & Attack Surfaces | flowchart TD | `20-SECURITY-THREAT-MODEL.md` | [DIA-013-security-trust-boundary.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-013-security-trust-boundary.mmd) |
+| **DIA-014** | Three-Topology Deployment Architecture | flowchart TD | `23-DEPLOYMENT-AND-OPERATIONS-ARCHITECTURE.md` | [DIA-014-deployment-topology.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-014-deployment-topology.mmd) |
+| **DIA-015** | End-to-End Data Flow (Intent to Foundation Package) | flowchart LR | `04-PFS-PRODUCT-ARCHITECTURE.md` | [DIA-015-data-flow-diagram.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-015-data-flow-diagram.mmd) |
+| **DIA-016** | Failure Detection, Circuit Breaker & Compensation Flow | flowchart TD | `25-OBSERVABILITY-AND-RELIABILITY.md` | [DIA-016-failure-recovery-flow.mmd](file:///C:/Users/OK259/rust/docs/M1-architecture/diagrams/DIA-016-failure-recovery-flow.mmd) |

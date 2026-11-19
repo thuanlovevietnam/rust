@@ -1,0 +1,10 @@
+Version_Domain,Current_Baseline,Versioning_Scheme,Backward_Compatibility_Policy,Deprecation_Grace_Period,Migration_Mechanism,Breaking_Change_Handling
+PFS Core Binary,v1.0.0-rc1,SemVer 2.0.0,Tương thích các gói Foundation sinh từ v1.x,12 tháng sau khi ra v2.0,Tự động chạy database migrations,Thông báo nâng cấp kèm migration guide
+Universal Domain Model,dom.v1,URI SemVer,Các trường mới bổ sung bắt buộc là Optional,6 tháng cảnh báo deprecation,JSON Schema transforms,Tạo schema mới dom.v2 duy trì dom.v1
+API Contracts,/api/v1,URL Path Prefix,Endpoint cũ không được xóa bỏ trong cùng Major,12 tháng sau khi công bố v2,API Gateway routing sang v1 handler,Duy trì song song /api/v1 và /api/v2
+Artifact Schemas,schema.v1.0,Draft 2020-12,Metadata mở rộng phải có giá trị mặc định,6 tháng cảnh báo chuyển đổi,JSON Schema migration scripts,Đánh dấu Superseded và lưu alias cũ
+Generator Templates,tpl-rust-v1.0,SemVer,Khóa phiên bản trong Project Profile,Vĩnh viễn cho dự án cũ,Lệnh pfs template upgrade,Không tự ý nâng cấp template nếu chưa duyệt
+Agent Profiles,agt-c4-v1.0,SemVer,Tương thích hợp đồng Task Contract cũ,3 tháng sau khi cập nhật prompt,Hỗ trợ nạp song song profile cũ và mới,Đổi sang Agent Profile v2 có tên mới
+Governance Policies,pol.l0_l5.v1,Digest Hash,Lưu mã băm của chính sách tại thời điểm ký,Vĩnh viễn không hồi tố,Policy Ledger versioning,Chính sách mới chỉ áp dụng cho stage sau
+Provider Adapters,adp-openai-v1,SemVer,Universal Provider Port không đổi,Theo chính sách OpenAI deprecation,Cập nhật crate pfs-infra,Chuyển sang adapter model mới qua config
+Foundation Package,pkg-v1.0.0,SemVer,Niêm phong Merkle Root Hash bất biến,Vĩnh viễn không ghi đè,Export/Import bundle compatibility,Phát sinh Package v2.0.0 với DAG mới

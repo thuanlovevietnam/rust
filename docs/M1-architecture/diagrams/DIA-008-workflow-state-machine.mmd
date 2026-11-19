@@ -1,0 +1,29 @@
+stateDiagram-v2
+    title PFS Foundation Workflow State Machine (DIA-008)
+
+    [*] --> Draft : Create Stage Instance
+    Draft --> Ready : Validate Preconditions (Guards Pass)
+    Ready --> Running : Start Execution (Lease Tasks)
+    
+    state Running {
+        [*] --> TaskPlanning
+        TaskPlanning --> AgentExecuting : Dispatch Task
+        AgentExecuting --> OutputValidation : Task Output
+        OutputValidation --> [*] : All Tasks Complete
+    }
+
+    Running --> InReview : All Tasks Successful
+    Running --> Failed : Error (Timeout / API Crash)
+    Running --> Blocked : Quality Gate Violated (Critical Finding)
+
+    Failed --> Suspended : Max Retries Exceeded
+    Suspended --> Ready : Manual Operator Compensation
+
+    Blocked --> Ready : Remediate Finding / Issue Waiver
+
+    InReview --> Approved : Human Explicit Sign-off (Ed25519)
+    InReview --> Rejected : Reviewer Rejection
+    Rejected --> Draft : Revise Inputs & Tasks
+
+    Approved --> Completed : Seal Stage Checkpoint
+    Completed --> [*] : Advance to Next Pipeline Stage

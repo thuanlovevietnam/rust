@@ -1,0 +1,32 @@
+erDiagram
+    ORGANIZATION ||--o{ WORKSPACE : contains
+    WORKSPACE ||--o{ PROJECT : manages
+    
+    PROJECT ||--|| PROJECT_INTENT : originates_from
+    PROJECT ||--|| PROJECT_PROFILE : configured_by
+    PROJECT ||--|| CAPABILITY_PROFILE : resolves
+    PROJECT ||--o{ FOUNDATION_STAGE : executes
+    PROJECT ||--o{ REQUIREMENT : defines
+    PROJECT ||--o{ DECISION : records
+    PROJECT ||--o{ ARTIFACT : owns
+    PROJECT ||--o{ QUALITY_GATE : evaluated_by
+
+    PROJECT_PROFILE ||--o{ CAPABILITY_BINDING : specifies
+    CAPABILITY_BINDING }o--|| CAPABILITY : references
+
+    REQUIREMENT ||--o{ REQUIREMENT : derives_from
+    REQUIREMENT ||--o{ REQUIREMENT : conflicts_with
+    DECISION ||--o{ REQUIREMENT : governs
+    DECISION ||--o| DECISION : supersedes
+
+    FOUNDATION_STAGE ||--o{ TASK : decomposes_into
+    TASK }o--|| AGENT_PROFILE : assigned_to
+    TASK ||--o{ ARTIFACT : produces
+
+    ARTIFACT ||--o{ ARTIFACT : derived_from
+    ARTIFACT }o--|| TEMPLATE : generated_from
+    ARTIFACT ||--o{ EVIDENCE : verified_by
+
+    QUALITY_GATE ||--o{ EVIDENCE : requires
+    QUALITY_GATE ||--o{ FINDING : blocks_on
+    QUALITY_GATE ||--o{ APPROVAL : certified_by

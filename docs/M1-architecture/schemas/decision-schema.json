@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/schemas/v1/decision-schema.json",
+  "title": "PFS Architecture Decision Record (ADR) Schema",
+  "description": "Formal schema for PFS Architecture Decision Records",
+  "type": "object",
+  "required": ["decision_id", "title", "status", "decision_authority", "date", "context", "outcome", "rationale"],
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "pattern": "^ADR-[0-9]{3,}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 5,
+      "maxLength": 150
+    },
+    "status": {
+      "type": "string",
+      "enum": ["Proposed", "Accepted", "Deferred", "Open", "Superseded", "Rejected"]
+    },
+    "decision_authority": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date"
+    },
+    "context": {
+      "type": "string"
+    },
+    "decision_drivers": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "options_considered": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["option_id", "title", "description"],
+        "properties": {
+          "option_id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "pros": { "type": "array", "items": { "type": "string" } },
+          "cons": { "type": "array", "items": { "type": "string" } }
+        }
+      },
+      "minItems": 2
+    },
+    "outcome": {
+      "type": "string"
+    },
+    "rationale": {
+      "type": "string"
+    },
+    "consequences": {
+      "type": "object",
+      "properties": {
+        "positive": { "type": "array", "items": { "type": "string" } },
+        "negative": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "supersedes": {
+      "type": "string"
+    },
+    "superseded_by": {
+      "type": "string"
+    },
+    "related_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

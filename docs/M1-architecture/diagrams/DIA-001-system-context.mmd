@@ -1,0 +1,24 @@
+C4Context
+    title PFS System Context Diagram (DIA-001)
+
+    Person(owner, "Project Owner", "Quyền quyết định tối cao, ngân sách và nghiệm thu baseline.")
+    Person(operator, "Project Operator / Architect", "Vận hành hệ thống, nhập intent, điều phối workflow.")
+    Person(dev, "Developer / Domain Specialist", "Tiếp nhận foundation, tra cứu yêu cầu, triển khai thực tế.")
+    Person(auditor, "Independent Quality Auditor", "Kiểm toán độc lập, thẩm tra bằng chứng và tiêu chí nghiệm thu.")
+
+    System(pfs, "Project Foundation System (PFS)", "Universal Project Foundation Engine (Rust Core) điều phối intent, quy tắc quản trị, agents và sinh foundation có cấu trúc.")
+
+    System_Ext(llm, "External AI Providers", "OpenAI, Anthropic, Gemini, Local vLLM qua Gateway trừu tượng hóa.")
+    System_Ext(vcs, "Version Control Systems", "Git repositories (GitHub, GitLab, Local) lưu trữ lịch sử và mã nguồn.")
+    System_Ext(sandbox, "Execution Sandbox Host", "Hạ tầng cô lập thực thi công cụ (WASM, Subprocess jail).")
+    System_Ext(telemetry, "Telemetry / Observability", "OpenTelemetry Collector, Prometheus, Grafana, Jaeger.")
+
+    Rel(owner, pfs, "Ký duyệt quyết định, phê duyệt gates, cấp quyền (CLI / Web UI)", "HTTPS / IPC")
+    Rel(operator, pfs, "Nhập Intent, điều phối workflow, cấu hình capability", "HTTPS / CLI")
+    Rel(dev, pfs, "Tra cứu requirements, xem tài liệu, nhận nhiệm vụ", "HTTPS / CLI")
+    Rel(auditor, pfs, "Thẩm tra nhật ký kiểm toán, kiểm tra evidence và findings", "HTTPS / CLI")
+
+    Rel(pfs, llm, "Gửi prompts đã lọc bí mật, nhận cấu trúc đề xuất (Streaming / JSON)", "HTTPS / TLS 1.3")
+    Rel(pfs, vcs, "Xuất Foundation Package, đồng bộ commit và tag lịch sử", "Git Protocol / CLI")
+    Rel(pfs, sandbox, "Kích hoạt kiểm thử công cụ trong môi trường cô lập", "gRPC / IPC")
+    Rel(pfs, telemetry, "Phát OpenTelemetry traces, metrics và audit events", "OTLP / gRPC")

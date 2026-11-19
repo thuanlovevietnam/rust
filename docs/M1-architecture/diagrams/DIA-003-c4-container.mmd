@@ -1,0 +1,24 @@
+C4Container
+    title C4 Container Diagram for Project Foundation System (DIA-003)
+
+    Person(user, "User / Operator", "Tương tác qua dòng lệnh CLI hoặc giao diện Web")
+    
+    Container_Boundary(pfs_boundary, "Project Foundation System Boundary")
+        Container(cli, "CLI Binary (pfs)", "Rust / clap", "Công cụ dòng lệnh chính cho developer và tự động hóa CI/CD")
+        Container(web_ui, "Web / Desktop UI", "Tauri / React / Vite", "Giao diện quản trị đồ họa trực quan (Workspace Explorer, Visualizer)")
+        Container(pfsd, "PFS Core Daemon (pfsd)", "Rust / Tokio / Axum", "Lõi điều phối trung tâm: Workflow Engine, Policy Engine, Agent Orchestrator, Generator")
+        ContainerDb(db, "Domain Persistence Store", "SQLite (Embedded) / PostgreSQL", "Lưu trữ cấu trúc dữ liệu quan hệ: Intent, DAG Requirements, Decisions, ACL, Saga Log")
+        Container(cas, "Content-Addressed Storage", "Local Disk / Object Storage", "Kho lưu trữ bất biến các tệp tin artifacts dạng blob nén (SHA-256 addresses)")
+        Container(sandbox_worker, "Sandbox Execution Worker", "Wasmtime / Linux Subprocess Jail", "Môi trường cô lập thực thi công cụ ngoại vi của Agent")
+    Container_Boundary_End()
+
+    System_Ext(llm_gateway, "External AI Models", "OpenAI, Anthropic, Gemini, Local vLLM")
+
+    Rel(user, cli, "Thực thi lệnh (init, plan, generate)", "Terminal CLI")
+    Rel(user, web_ui, "Xem cấu trúc, duyệt gates", "HTTPS")
+    Rel(cli, pfsd, "Gọi Application Services (hoặc nhúng in-process)", "IPC / JSON-RPC / REST")
+    Rel(web_ui, pfsd, "REST API & WebSocket real-time streams", "HTTPS / WSS")
+    Rel(pfsd, db, "Đọc/ghi quan hệ, kiểm tra ACL, lưu Saga State", "SQLx (Async)")
+    Rel(pfsd, cas, "Đọc/ghi blobs artifacts, Merkle Root", "File IO / S3 API")
+    Rel(pfsd, sandbox_worker, "Gửi tác vụ công cụ có cô lập an toàn", "gRPC / IPC")
+    Rel(pfsd, llm_gateway, "Gửi prompts đã lọc bí mật, nhận completion", "HTTPS TLS 1.3")

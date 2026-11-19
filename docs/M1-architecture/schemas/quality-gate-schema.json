@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/schemas/v1/quality-gate-schema.json",
+  "title": "PFS Quality Gate Schema",
+  "description": "Formal schema for PFS Quality Gates and Pass/Fail evaluation",
+  "type": "object",
+  "required": ["gate_id", "stage_id", "purpose", "pass_criteria", "blocking_behavior", "waiver_authority"],
+  "properties": {
+    "gate_id": {
+      "type": "string",
+      "pattern": "^QG-[0-9]{2}-[A-Z0-9_-]+$"
+    },
+    "stage_id": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "required_inputs": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "validation_rules": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidence_requirements": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "pass_criteria": {
+      "type": "string"
+    },
+    "fail_criteria": {
+      "type": "string"
+    },
+    "blocking_behavior": {
+      "type": "string",
+      "enum": ["BlockPipeline", "WarnAndProceed", "RequireOperatorAcknowledgment"]
+    },
+    "waiver_authority": {
+      "type": "string",
+      "enum": ["L4_ExecuteOperations", "L5_PrivilegedOwner"]
+    }
+  },
+  "additionalProperties": false
+}

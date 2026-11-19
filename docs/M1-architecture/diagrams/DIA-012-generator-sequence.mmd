@@ -1,0 +1,32 @@
+sequenceDiagram
+    autonumber
+    title Journal-Based Staged Commit and Recovery Sequence (DIA-012)
+
+    participant USR as User / CLI
+    participant GEN as Foundation Generator
+    participant TPL as Template Registry
+    participant STG as Staging Area (.pfs/staging/)
+    participant JRN as Transaction Journal (.pfs/journal/)
+    participant MAN as Ownership Manifest (.pfs-manifest.json)
+    participant WS as Workspace Target Filesystem
+
+    USR->>GEN: Lệnh: pfs generate --preview
+    GEN->>TPL: Nạp mẫu cấu trúc và giải quyết biến (Variable Bindings)
+    GEN->>STG: Giai đoạn 4-5: Sinh toàn bộ cây tệp tin vào thư mục tạm (.pfs/staging/)
+    GEN->>MAN: Giai đoạn 3: Đọc Ownership Manifest và mã băm ban đầu
+    GEN->>WS: Giai đoạn 7: Quét tệp mục tiêu và đối soát mã băm SHA-256
+    alt Phát hiện xung đột (Người dùng đã sửa tệp thủ công)
+        GEN-->>USR: CẢNH BÁO XUNG ĐỘT: Hiển thị Interactive Diff Preview & Dừng tiến trình
+    else Không có xung đột (Tất cả an toàn)
+        GEN-->>USR: Hiển thị Bản xem trước (Dry-run Preview: Thêm N tệp, Sửa M tệp)
+        USR->>GEN: Xác nhận áp dụng có thẩm quyền (L3 Sign-off): pfs commit
+        GEN->>JRN: Giai đoạn 8: Ghi Durable Write-Ahead Journal & gọi fsync / sync_all()
+        loop Cho từng tệp trong Generation Plan
+            GEN->>WS: Giai đoạn 9: Hoán đổi nguyên tử từng tệp (MoveFileExW trên Windows / rename trên POSIX)
+            GEN->>JRN: Giai đoạn 10: Ghi nhận bước hoàn tất vào Journal
+        end
+        GEN->>WS: Giai đoạn 12: Kiểm tra tính toàn vẹn Merkle Root Hash của Workspace
+        GEN->>MAN: Giai đoạn 13: Cập nhật mã băm mới vào .pfs-manifest.json
+        GEN->>JRN: Đánh dấu Journal trạng thái COMMITTED & dọn dẹp Staging
+        GEN-->>USR: Hoàn tất sinh Foundation an toàn có ghi vết kiểm toán
+    end

@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/contracts/v1/provider-contracts.json",
+  "title": "PFS AI Provider Gateway Trait Contracts Registry",
+  "version": "1.1.0",
+  "description": "Authoritative provider interface specifications governing AI Provider Gateway adapters, security constraints, and model capabilities.",
+  "global_security_rules": {
+    "restricted_data_external_dispatch": "STRICT_DENY",
+    "unclassified_data_dispatch": "STRICT_DENY",
+    "default_request_timeout_ms": 30000,
+    "max_retry_attempts": 3,
+    "backoff_strategy": "ExponentialWithFullJitter"
+  },
+  "providers": [
+    {
+      "provider_id": "openai",
+      "display_name": "OpenAI Commercial API",
+      "endpoint_type": "ExternalCloud",
+      "base_url": "https://api.openai.com/v1",
+      "supported_models": [
+        {
+          "model_id": "gpt-4o",
+          "context_window_tokens": 128000,
+          "max_output_tokens": 16384,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "ArchitectAndPlanner"
+        },
+        {
+          "model_id": "gpt-4o-mini",
+          "context_window_tokens": 128000,
+          "max_output_tokens": 16384,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "FastLinterAndSummarizer"
+        }
+      ],
+      "data_classification_policy": {
+        "allowed_tiers": ["Public", "Internal"],
+        "confidential_tier_allowed": true,
+        "confidential_prerequisites": ["EnterpriseZeroDataRetentionContract", "DoNotTrainHeader"],
+        "restricted_tier_allowed": false,
+        "restricted_denial_code": "DENY_RESTRICTED_EXTERNAL_DISPATCH"
+      },
+      "rate_limit_policy": {
+        "max_concurrent_requests": 20,
+        "on_429_backoff_initial_ms": 1000,
+        "on_429_backoff_max_ms": 16000
+      },
+      "circuit_breaker": {
+        "failure_threshold_percentage": 50,
+        "consecutive_failures": 5,
+        "reset_timeout_seconds": 30
+      },
+      "error_normalization": {
+        "400": "INVALID_PROMPT_PAYLOAD",
+        "401": "AUTHENTICATION_FAILED",
+        "403": "ACCOUNT_PERMISSION_DENIED",
+        "429": "RATE_LIMIT_EXCEEDED",
+        "500": "PROVIDER_INTERNAL_ERROR",
+        "503": "PROVIDER_OVERLOADED_FAILOVER_TRIGGERED"
+      }
+    },
+    {
+      "provider_id": "anthropic",
+      "display_name": "Anthropic Claude Commercial API",
+      "endpoint_type": "ExternalCloud",
+      "base_url": "https://api.anthropic.com/v1",
+      "supported_models": [
+        {
+          "model_id": "claude-3-7-sonnet-20250219",
+          "context_window_tokens": 200000,
+          "max_output_tokens": 64000,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "PrimaryReasoningAndArchitecture"
+        },
+        {
+          "model_id": "claude-3-5-haiku-20241022",
+          "context_window_tokens": 200000,
+          "max_output_tokens": 8192,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "FastValidation"
+        }
+      ],
+      "data_classification_policy": {
+        "allowed_tiers": ["Public", "Internal"],
+        "confidential_tier_allowed": true,
+        "confidential_prerequisites": ["CommercialAgreement", "ZeroDataRetention"],
+        "restricted_tier_allowed": false,
+        "restricted_denial_code": "DENY_RESTRICTED_EXTERNAL_DISPATCH"
+      },
+      "rate_limit_policy": {
+        "max_concurrent_requests": 15,
+        "on_429_backoff_initial_ms": 1500,
+        "on_429_backoff_max_ms": 30000
+      },
+      "circuit_breaker": {
+        "failure_threshold_percentage": 50,
+        "consecutive_failures": 5,
+        "reset_timeout_seconds": 30
+      },
+      "error_normalization": {
+        "400": "INVALID_PROMPT_PAYLOAD",
+        "401": "AUTHENTICATION_FAILED",
+        "429": "RATE_LIMIT_EXCEEDED",
+        "500": "PROVIDER_INTERNAL_ERROR",
+        "529": "PROVIDER_OVERLOADED_FAILOVER_TRIGGERED"
+      }
+    },
+    {
+      "provider_id": "vllm_local",
+      "display_name": "Local Air-Gapped vLLM / Ollama Cluster",
+      "endpoint_type": "AirGappedLocal",
+      "base_url": "http://127.0.0.1:8000/v1",
+      "supported_models": [
+        {
+          "model_id": "meta-llama-3.1-70b-instruct",
+          "context_window_tokens": 32768,
+          "max_output_tokens": 4096,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "AirGappedPrimary"
+        },
+        {
+          "model_id": "qwen-2.5-coder-32b",
+          "context_window_tokens": 32768,
+          "max_output_tokens": 8192,
+          "supports_structured_output": true,
+          "supports_tool_calling": true,
+          "supports_streaming": true,
+          "recommended_role": "CodeAndSchemaSpecialist"
+        }
+      ],
+      "data_classification_policy": {
+        "allowed_tiers": ["Public", "Internal", "Confidential", "Restricted"],
+        "confidential_tier_allowed": true,
+        "confidential_prerequisites": [],
+        "restricted_tier_allowed": true,
+        "restricted_prerequisites": ["AirGappedNetworkIsolationVerified", "Ed25519OwnerWaiverSigned"],
+        "restricted_denial_code": "DENY_UNAUTHORIZED_LOCAL_DISPATCH"
+      },
+      "rate_limit_policy": {
+        "max_concurrent_requests": 4,
+        "on_429_backoff_initial_ms": 500,
+        "on_429_backoff_max_ms": 4000
+      },
+      "circuit_breaker": {
+        "failure_threshold_percentage": 30,
+        "consecutive_failures": 3,
+        "reset_timeout_seconds": 15
+      },
+      "error_normalization": {
+        "400": "INVALID_LOCAL_PROMPT",
+        "404": "MODEL_NOT_LOADED_IN_MEMORY",
+        "500": "LOCAL_INFERENCE_ENGINE_CRASH",
+        "503": "LOCAL_GPU_OUT_OF_MEMORY"
+      }
+    }
+  ]
+}

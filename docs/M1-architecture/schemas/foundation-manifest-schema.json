@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/schemas/v1/foundation-manifest-schema.json",
+  "title": "PFS Foundation Ownership Manifest Schema",
+  "description": "Formal schema for .pfs-manifest.json emitted by Generator",
+  "type": "object",
+  "required": ["manifest_version", "project_id", "generation_session_id", "merkle_root_hash", "generated_at", "files"],
+  "properties": {
+    "manifest_version": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "project_id": {
+      "type": "string"
+    },
+    "generation_session_id": {
+      "type": "string"
+    },
+    "merkle_root_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "generator_version": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "sha256", "ownership", "size_bytes"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "ownership": { "type": "string", "enum": ["PFSManaged", "UserOwned", "SharedTemplate"] },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "template_id": { "type": "string" }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

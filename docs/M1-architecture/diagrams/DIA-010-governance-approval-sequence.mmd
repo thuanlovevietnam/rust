@@ -1,0 +1,24 @@
+sequenceDiagram
+    autonumber
+    title Governance & Authority Approval Sequence (DIA-010)
+
+    participant AG as Proposer / Agent (L1/L2)
+    participant PEP as Policy Enforcement Point (Rust)
+    participant PDP as Policy Decision Point
+    participant APP as Approval Coordinator
+    participant PO as Project Owner (L5 Authority)
+    participant AUD as Cryptographic Audit Ledger
+
+    AG->>PEP: Gửi lệnh phê duyệt Stage Baseline (CmdApproveStage)
+    PEP->>PDP: Yêu cầu đánh giá quyền của chủ thể AG
+    PDP->>PDP: Kiểm tra cấp quyền: AG chỉ có L2 -> TỪ CHỐI TỰ ĐỘNG THỰC THI
+    PDP-->>PEP: Kết quả: Yêu cầu Thẩm quyền Con người L5 (Human Approval Required)
+    PEP->>APP: Tạo phiếu phê duyệt (ApprovalRequest ULID) kèm mã băm tệp
+    APP->>PO: Thông báo duyệt kèm Diff Preview, Evidence Checklist và Rationale
+    PO->>PO: Kiểm tra bằng chứng độc lập và quyết định
+    PO->>APP: Gửi quyết định 'Approved' kèm chữ ký số Ed25519
+    APP->>PEP: Chuyển giao Approval Record có chữ ký số
+    PEP->>PEP: Xác thực chữ ký bằng Public Key của Project Owner
+    PEP->>PEP: Kiểm tra Separation of Duties (Owner != Proposer)
+    PEP->>AUD: Niêm phong bản ghi phê duyệt vào Append-only Ledger
+    PEP-->>AG: Lệnh thành công; Giai đoạn chính thức chuyển sang 'Approved'

@@ -1,0 +1,18 @@
+graph LR
+    title[PFS 11-Stage Foundation Lifecycle Pipeline - DIA-007]
+
+    S1["[01] Initialize<br/>(Project & Intent)"] --> S2["[02] Discover<br/>(Context & Risk)"]
+    S2 --> S3["[03] Requirements<br/>(DAG & Conflicts)"]
+    S3 --> S4["[04] Architecture<br/>(C4 & ADRs)"]
+    S4 --> S5["[05] Governance<br/>(L0-L5 & Roles)"]
+    S5 --> S6["[06] Documentation<br/>(Specs & Handbooks)"]
+    S6 --> S7["[07] Agents<br/>(Profiles & Sandbox)"]
+    S7 --> S8["[08] Quality<br/>(Gates & Evidence)"]
+    S8 --> S9["[09] Bootstrap<br/>(Staged Generator)"]
+    S9 --> S10["[10] Audit<br/>(Independent Review)"]
+    S10 --> S11["[11] Baseline<br/>(Owner Sealed Release)"]
+
+    classDef stage fill:#f0f4c3,stroke:#827717,stroke-width:2px;
+    classDef baseline fill:#c8e6c9,stroke:#2e7d32,stroke-width:3px;
+    class S1,S2,S3,S4,S5,S6,S7,S8,S9,S10 stage;
+    class S11 baseline;

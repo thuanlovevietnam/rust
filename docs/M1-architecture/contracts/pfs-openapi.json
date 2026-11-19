@@ -1,0 +1,621 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Project Foundation System (PFS) Daemon REST API",
+    "version": "1.0.0",
+    "description": "Authoritative REST API specification for PFS Daemon Core (pfsd), implementing single business semantics across CLI, API, and Agent interfaces.",
+    "contact": {
+      "name": "PFS Architecture Team",
+      "url": "https://github.com/project-foundation-system/pfs"
+    },
+    "license": {
+      "name": "MIT OR Apache-2.0"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:8080/api/v1",
+      "description": "Local PFS Daemon (Development & CLI mode)"
+    },
+    {
+      "url": "https://pfs.internal.corp/api/v1",
+      "description": "Enterprise Team Daemon (Production mode)"
+    }
+  ],
+  "security": [
+    { "BearerAuth": [] },
+    { "ApiKeyAuth": [] }
+  ],
+  "paths": {
+    "/projects": {
+      "get": {
+        "summary": "List Projects",
+        "description": "Retrieve projects within caller workspace scope with cursor-based pagination.",
+        "operationId": "listProjects",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantHeader" },
+          { "$ref": "#/components/parameters/WorkspaceHeader" },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" },
+            "description": "Opaque pagination cursor (ULID of last item)"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "integer", "minimum": 1, "maximum": 100, "default": 20 }
+          },
+          {
+            "name": "lifecycle_stage",
+            "in": "query",
+            "required": false,
+            "schema": { "$ref": "#/components/schemas/LifecycleStageEnum" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Paginated list of projects successfully returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["items", "pagination"],
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/ProjectResponse" }
+                    },
+                    "pagination": { "$ref": "#/components/schemas/PaginationMetadata" }
+                  }
+                }
+              }
+            }
+          },
+          "401": { "$ref": "#/components/responses/UnauthorizedError" },
+          "403": { "$ref": "#/components/responses/ForbiddenError" }
+        }
+      },
+      "post": {
+        "summary": "Initialize Project",
+        "description": "Create a new project aggregate from structured input or raw intent brief. Requires L2 authority.",
+        "operationId": "createProject",
+        "parameters": [
+          { "$ref": "#/components/parameters/TenantHeader" },
+          { "$ref": "#/components/parameters/WorkspaceHeader" },
+          { "$ref": "#/components/parameters/IdempotencyKeyHeader" }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/CreateProjectRequest" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Project successfully initialized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "403": { "$ref": "#/components/responses/ForbiddenError" },
+          "409": { "$ref": "#/components/responses/ConflictError" }
+        }
+      }
+    },
+    "/projects/{projectId}": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        }
+      ],
+      "get": {
+        "summary": "Get Project Details",
+        "operationId": "getProjectById",
+        "responses": {
+          "200": {
+            "description": "Project aggregate details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ProjectResponse" }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFoundError" }
+        }
+      }
+    },
+    "/projects/{projectId}/intent": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        }
+      ],
+      "get": {
+        "summary": "Get Project Intent",
+        "operationId": "getProjectIntent",
+        "responses": {
+          "200": {
+            "description": "Structured Intent aggregate",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/IntentResponse" }
+              }
+            }
+          },
+          "404": { "$ref": "#/components/responses/NotFoundError" }
+        }
+      },
+      "put": {
+        "summary": "Update Project Intent",
+        "description": "Update or refine raw intent and decomposed goals. Evaluates data classification tier before saving.",
+        "operationId": "updateProjectIntent",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UpdateIntentRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Intent updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/IntentResponse" }
+              }
+            }
+          },
+          "400": { "$ref": "#/components/responses/ValidationError" },
+          "403": { "$ref": "#/components/responses/ForbiddenError" }
+        }
+      }
+    },
+    "/projects/{projectId}/requirements": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        }
+      ],
+      "get": {
+        "summary": "Get Requirements DAG",
+        "description": "Retrieve the Directed Acyclic Graph of requirements, dependencies, and verification criteria.",
+        "operationId": "getRequirementsDAG",
+        "responses": {
+          "200": {
+            "description": "Requirements DAG graph representation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["project_id", "nodes", "edges", "is_acyclic"],
+                  "properties": {
+                    "project_id": { "type": "string" },
+                    "nodes": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/RequirementNode" }
+                    },
+                    "edges": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": ["source", "target", "relation_type"],
+                        "properties": {
+                          "source": { "type": "string" },
+                          "target": { "type": "string" },
+                          "relation_type": { "type": "string", "enum": ["depends_on", "conflicts_with", "refines"] }
+                        }
+                      }
+                    },
+                    "is_acyclic": { "type": "boolean" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/workflow/transition": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        }
+      ],
+      "post": {
+        "summary": "Trigger Workflow Stage Transition",
+        "description": "Advance lifecycle FSM to target stage. Evaluates Transition Guards and Quality Gate evidence before allowing.",
+        "operationId": "transitionWorkflowStage",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["target_stage", "author_principal", "authority_level"],
+                "properties": {
+                  "target_stage": { "$ref": "#/components/schemas/LifecycleStageEnum" },
+                  "author_principal": { "type": "string" },
+                  "authority_level": { "type": "string", "enum": ["L0", "L1", "L2", "L3", "L4", "L5"] },
+                  "ed25519_signature": { "type": "string", "description": "Mandatory for L4/L5 sign-offs" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Stage transition accepted and FSM advanced",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["project_id", "previous_stage", "current_stage", "transition_timestamp"],
+                  "properties": {
+                    "project_id": { "type": "string" },
+                    "previous_stage": { "$ref": "#/components/schemas/LifecycleStageEnum" },
+                    "current_stage": { "$ref": "#/components/schemas/LifecycleStageEnum" },
+                    "transition_timestamp": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Quality Gate Blocked — Preconditions or evidence not satisfied",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QualityGateBlockResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/generator/preview": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        }
+      ],
+      "post": {
+        "summary": "Run Generator Dry-Run Preview",
+        "description": "Executes Stages 1-7 of generator pipeline: stages artifacts and produces non-destructive unified diff preview.",
+        "operationId": "generatePreview",
+        "responses": {
+          "200": {
+            "description": "Dry-run diff preview and conflict report",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/GeneratorPreviewResponse" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/projects/{projectId}/generator/commit": {
+      "parameters": [
+        {
+          "name": "projectId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" }
+        },
+        { "$ref": "#/components/parameters/IdempotencyKeyHeader" }
+      ],
+      "post": {
+        "summary": "Commit Staged Foundation",
+        "description": "Executes Stages 8-13 of generator pipeline: writes durable journal, applies platform changes, seals manifest and audit ledger.",
+        "operationId": "commitFoundation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["preview_session_id", "signer_principal", "ed25519_signature"],
+                "properties": {
+                  "preview_session_id": { "type": "string" },
+                  "signer_principal": { "type": "string" },
+                  "ed25519_signature": { "type": "string" },
+                  "conflict_resolution_override": {
+                    "type": "string",
+                    "enum": ["AbortOnConflict", "PreserveUserModified", "ForceOverwriteApproved"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Foundation changes applied and sealed successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["session_id", "status", "files_created", "files_updated", "merkle_root_hash"],
+                  "properties": {
+                    "session_id": { "type": "string" },
+                    "status": { "type": "string", "enum": ["COMMITTED", "ROLLED_BACK"] },
+                    "files_created": { "type": "integer" },
+                    "files_updated": { "type": "integer" },
+                    "merkle_root_hash": { "type": "string" },
+                    "applied_at": { "type": "string", "format": "date-time" }
+                  }
+                }
+              }
+            }
+          },
+          "409": { "$ref": "#/components/responses/ConflictError" }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "TenantHeader": {
+        "name": "X-PFS-Tenant-Id",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string", "default": "default-org" }
+      },
+      "WorkspaceHeader": {
+        "name": "X-PFS-Workspace-Id",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string", "default": "default-ws" }
+      },
+      "IdempotencyKeyHeader": {
+        "name": "Idempotency-Key",
+        "in": "header",
+        "required": false,
+        "schema": { "type": "string", "maxLength": 128 },
+        "description": "Unique key to ensure idempotent command execution and prevent duplicate application"
+      }
+    },
+    "schemas": {
+      "LifecycleStageEnum": {
+        "type": "string",
+        "enum": [
+          "STG-01-INIT", "STG-02-DISC", "STG-03-REQS", "STG-04-ARCH",
+          "STG-05-GOVN", "STG-06-DOCS", "STG-07-AGNT", "STG-08-QUAL",
+          "STG-09-BOOT", "STG-10-AUDT", "STG-11-BASE"
+        ]
+      },
+      "ClassificationTierEnum": {
+        "type": "string",
+        "enum": ["Public", "Internal", "Confidential", "Restricted"],
+        "default": "Internal"
+      },
+      "ProjectResponse": {
+        "type": "object",
+        "required": ["project_id", "name", "project_type", "lifecycle_stage", "classification", "created_at"],
+        "properties": {
+          "project_id": { "type": "string" },
+          "organization_id": { "type": "string" },
+          "workspace_id": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "project_type": { "type": "string", "enum": ["SoftwareProduct", "BusinessStrategy", "AcademicResearch", "SmartCityIoT", "CustomDomain"] },
+          "lifecycle_stage": { "$ref": "#/components/schemas/LifecycleStageEnum" },
+          "classification": { "$ref": "#/components/schemas/ClassificationTierEnum" },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "CreateProjectRequest": {
+        "type": "object",
+        "required": ["name", "raw_intent"],
+        "properties": {
+          "name": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "description": { "type": "string" },
+          "project_type": { "type": "string", "enum": ["SoftwareProduct", "BusinessStrategy", "AcademicResearch", "SmartCityIoT", "CustomDomain"], "default": "SoftwareProduct" },
+          "raw_intent": { "type": "string", "minLength": 5 },
+          "classification": { "$ref": "#/components/schemas/ClassificationTierEnum" }
+        }
+      },
+      "IntentResponse": {
+        "type": "object",
+        "required": ["intent_id", "project_id", "raw_input", "structured_goals", "classification"],
+        "properties": {
+          "intent_id": { "type": "string" },
+          "project_id": { "type": "string" },
+          "raw_input": { "type": "string" },
+          "structured_goals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["goal_id", "statement", "priority"],
+              "properties": {
+                "goal_id": { "type": "string" },
+                "statement": { "type": "string" },
+                "priority": { "type": "string" }
+              }
+            }
+          },
+          "classification": { "$ref": "#/components/schemas/ClassificationTierEnum" }
+        }
+      },
+      "UpdateIntentRequest": {
+        "type": "object",
+        "required": ["raw_input"],
+        "properties": {
+          "raw_input": { "type": "string" },
+          "classification": { "$ref": "#/components/schemas/ClassificationTierEnum" }
+        }
+      },
+      "RequirementNode": {
+        "type": "object",
+        "required": ["requirement_id", "statement", "priority", "status"],
+        "properties": {
+          "requirement_id": { "type": "string" },
+          "domain": { "type": "string" },
+          "statement": { "type": "string" },
+          "priority": { "type": "string", "enum": ["P0", "P1", "P2", "P3"] },
+          "status": { "type": "string", "enum": ["Proposed", "Accepted", "Deferred", "Rejected"] }
+        }
+      },
+      "GeneratorPreviewResponse": {
+        "type": "object",
+        "required": ["preview_session_id", "staged_files_count", "conflicts_count", "diffs"],
+        "properties": {
+          "preview_session_id": { "type": "string" },
+          "staged_files_count": { "type": "integer" },
+          "conflicts_count": { "type": "integer" },
+          "conflicts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file_path": { "type": "string" },
+                "reason": { "type": "string" }
+              }
+            }
+          },
+          "diffs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "file_path": { "type": "string" },
+                "change_type": { "type": "string", "enum": ["Created", "Modified", "Unchanged"] },
+                "unified_diff": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "QualityGateBlockResponse": {
+        "type": "object",
+        "required": ["blocked_gate", "unmet_criteria", "findings"],
+        "properties": {
+          "blocked_gate": { "type": "string" },
+          "unmet_criteria": { "type": "array", "items": { "type": "string" } },
+          "findings": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "finding_id": { "type": "string" },
+                "severity": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        }
+      },
+      "PaginationMetadata": {
+        "type": "object",
+        "required": ["has_more"],
+        "properties": {
+          "has_more": { "type": "boolean" },
+          "next_cursor": { "type": "string", "nullable": true },
+          "total_count": { "type": "integer" }
+        }
+      },
+      "ProblemDetails": {
+        "type": "object",
+        "required": ["type", "title", "status", "correlation_id"],
+        "properties": {
+          "type": { "type": "string", "format": "uri" },
+          "title": { "type": "string" },
+          "status": { "type": "integer" },
+          "detail": { "type": "string" },
+          "instance": { "type": "string" },
+          "correlation_id": { "type": "string" },
+          "invalid_params": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "reason": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "User or Service Account JWT token indicating authority level L0-L5"
+      },
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-PFS-API-Key",
+        "description": "Static API Key for CI/CD runners"
+      }
+    },
+    "responses": {
+      "UnauthorizedError": {
+        "description": "Missing or invalid authentication credentials",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "ForbiddenError": {
+        "description": "Insufficient authority (L0-L5) or data classification policy violation",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "NotFoundError": {
+        "description": "Requested resource not found",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "ConflictError": {
+        "description": "Operation conflict (e.g. file modified by user or concurrent write)",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      },
+      "ValidationError": {
+        "description": "Malformed request syntax or schema validation failure",
+        "content": {
+          "application/problem+json": {
+            "schema": { "$ref": "#/components/schemas/ProblemDetails" }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,232 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pfs.dev/contracts/v1/tool-contracts.json",
+  "title": "PFS Tool Gateway Contracts Registry",
+  "version": "1.1.0",
+  "description": "Authoritative contract registry for tools executable by AI Agents and automation runners within isolated sandboxes.",
+  "tools": [
+    {
+      "tool_id": "TOOL-01-READ-FILE",
+      "name": "read_project_file",
+      "version": "1.0.0",
+      "purpose": "Reads file contents within authorized workspace root. Strictly sandboxed against path traversal and symlink escapes.",
+      "execution_target": "WasmSandbox",
+      "required_authority": "L0_ReadOnly",
+      "required_scope": "WorkspaceRoot",
+      "side_effects": "ReadOnly",
+      "is_idempotent": true,
+      "max_execution_ms": 1000,
+      "target_memory_mb": 64,
+      "human_approval_required": false,
+      "classification_policy": {
+        "egress_allowed_for": ["Public", "Internal", "Confidential"],
+        "restricted_handling": "MaskPayloadUnlessOwnerWaiver",
+        "output_inheritance": "InheritFromSourceFile"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_ms": 100,
+        "retryable_errors": ["IO_BUSY", "TIMEOUT"]
+      },
+      "audit_policy": {
+        "log_level": "INFO",
+        "record_payload": false,
+        "record_sha256": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["file_path"],
+        "properties": {
+          "file_path": {
+            "type": "string",
+            "description": "Relative path from workspace root"
+          },
+          "max_bytes": {
+            "type": "integer",
+            "default": 1048576,
+            "maximum": 10485760
+          }
+        },
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["content", "sha256", "byte_count", "classification"],
+        "properties": {
+          "content": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "byte_count": { "type": "integer" },
+          "classification": { "type": "string", "enum": ["Public", "Internal", "Confidential", "Restricted"] }
+        },
+        "additionalProperties": false
+      },
+      "error_contract": {
+        "error_codes": ["PATH_TRAVERSAL_DETECTED", "FILE_NOT_FOUND", "PERMISSION_DENIED", "FILE_TOO_LARGE", "TIMEOUT"]
+      }
+    },
+    {
+      "tool_id": "TOOL-02-LINT-SCHEMA",
+      "name": "validate_json_schema",
+      "version": "1.0.0",
+      "purpose": "Parses and validates a JSON payload against a specified JSON Schema Draft 2020-12 in memory.",
+      "execution_target": "WasmSandbox",
+      "required_authority": "L1_AnalyzePropose",
+      "required_scope": "ProjectContext",
+      "side_effects": "ReadOnly",
+      "is_idempotent": true,
+      "max_execution_ms": 2000,
+      "target_memory_mb": 128,
+      "human_approval_required": false,
+      "classification_policy": {
+        "egress_allowed_for": ["Public", "Internal", "Confidential", "Restricted"],
+        "restricted_handling": "AllowedInMemoryNoNetwork",
+        "output_inheritance": "InheritFromInputPayload"
+      },
+      "retry_policy": {
+        "max_retries": 1,
+        "backoff_ms": 50,
+        "retryable_errors": ["TIMEOUT"]
+      },
+      "audit_policy": {
+        "log_level": "DEBUG",
+        "record_payload": false,
+        "record_sha256": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["payload", "schema_definition"],
+        "properties": {
+          "payload": { "type": "object" },
+          "schema_definition": { "type": "object" }
+        },
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["valid", "errors"],
+        "properties": {
+          "valid": { "type": "boolean" },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["keyword", "path", "message"],
+              "properties": {
+                "keyword": { "type": "string" },
+                "path": { "type": "string" },
+                "message": { "type": "string" }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "error_contract": {
+        "error_codes": ["MALFORMED_JSON", "INVALID_SCHEMA", "TIMEOUT", "MEMORY_LIMIT_EXCEEDED"]
+      }
+    },
+    {
+      "tool_id": "TOOL-03-VALIDATE-MERMAID",
+      "name": "validate_mermaid_syntax",
+      "version": "1.0.0",
+      "purpose": "Parses and verifies syntax, structure, and headers of Mermaid diagram code in WASM sandbox.",
+      "execution_target": "WasmSandbox",
+      "required_authority": "L1_AnalyzePropose",
+      "required_scope": "ProjectContext",
+      "side_effects": "ReadOnly",
+      "is_idempotent": true,
+      "max_execution_ms": 2000,
+      "target_memory_mb": 64,
+      "human_approval_required": false,
+      "classification_policy": {
+        "egress_allowed_for": ["Public", "Internal"],
+        "restricted_handling": "Deny",
+        "output_inheritance": "Public"
+      },
+      "retry_policy": {
+        "max_retries": 0,
+        "backoff_ms": 0,
+        "retryable_errors": []
+      },
+      "audit_policy": {
+        "log_level": "INFO",
+        "record_payload": false,
+        "record_sha256": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["mermaid_source"],
+        "properties": {
+          "mermaid_source": { "type": "string", "maxLength": 65536 }
+        },
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["valid", "diagram_type", "errors"],
+        "properties": {
+          "valid": { "type": "boolean" },
+          "diagram_type": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } }
+        },
+        "additionalProperties": false
+      },
+      "error_contract": {
+        "error_codes": ["SYNTAX_ERROR", "UNSUPPORTED_DIAGRAM_TYPE", "TIMEOUT"]
+      }
+    },
+    {
+      "tool_id": "TOOL-04-STAGE-TEMPLATE",
+      "name": "render_template_to_staging",
+      "version": "1.0.0",
+      "purpose": "Renders a registered template into the isolated .pfs/staging directory. Strictly cannot write directly to working workspace tree.",
+      "execution_target": "NativeSandbox",
+      "required_authority": "L2_DraftArtifacts",
+      "required_scope": "StagingWorkspaceOnly",
+      "side_effects": "StagedWriteOnly",
+      "is_idempotent": true,
+      "max_execution_ms": 3000,
+      "target_memory_mb": 128,
+      "human_approval_required": false,
+      "classification_policy": {
+        "egress_allowed_for": ["Public", "Internal", "Confidential"],
+        "restricted_handling": "DenyUnlessAirGapped",
+        "output_inheritance": "InheritFromVariables"
+      },
+      "retry_policy": {
+        "max_retries": 2,
+        "backoff_ms": 200,
+        "retryable_errors": ["IO_ERROR", "TIMEOUT"]
+      },
+      "audit_policy": {
+        "log_level": "INFO",
+        "record_payload": false,
+        "record_sha256": true
+      },
+      "input_schema": {
+        "type": "object",
+        "required": ["session_ulid", "template_id", "variables", "relative_target_path"],
+        "properties": {
+          "session_ulid": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$" },
+          "template_id": { "type": "string" },
+          "variables": { "type": "object" },
+          "relative_target_path": { "type": "string" }
+        },
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "required": ["staged_path", "sha256", "bytes_written"],
+        "properties": {
+          "staged_path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "bytes_written": { "type": "integer" }
+        },
+        "additionalProperties": false
+      },
+      "error_contract": {
+        "error_codes": ["TEMPLATE_NOT_FOUND", "VARIABLE_BINDING_FAILED", "STAGING_IO_ERROR", "PATH_ESCAPE_DENIED"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+C4Component
+    title C4 Component Diagram for PFS Core Daemon (DIA-004)
+
+    Container_Boundary(core_daemon, "PFS Core Daemon (pfsd / Modular Monolith)")
+        Component(app_svc, "Application Services (pfs-app)", "Rust", "Điều phối Commands/Queries, Saga Coordinator, DTO Validation")
+        Component(gov_engine, "Governance & Policy Engine (pfs-governance)", "Rust", "Đánh giá L0–L5 Authorization, Deny-by-default, SoD checks, Approval Signatures")
+        Component(wkf_engine, "Workflow State Machine (pfs-workflow)", "Rust", "HFSM 11-Stage Pipeline, Transition Guards, Checkpoint Manager")
+        Component(agt_orc, "Agent Orchestrator (pfs-agent)", "Rust", "Task Planner, Decomposer, Context Window Builder, Secret Redactor")
+        Component(gen_engine, "Foundation Generator (pfs-generator)", "Rust", "Template Engine, Staged Generation, Conflict Detector, 2PC Apply")
+        Component(qlt_engine, "Quality & Evidence Engine (pfs-quality)", "Rust", "DAG Validator, Cycle Detection (Tarjan), Quality Gate Evaluator")
+        Component(domain_core, "Domain Core Aggregates (pfs-core)", "Rust", "Project, Requirement DAG, Decision ADR, Artifact Entities (Pure)")
+        Component(infra_adapters, "Infrastructure Adapters (pfs-infra)", "Rust", "SQLx DB Pool, AI Provider Gateway, WASM Tool Sandbox, OTLP Emitter")
+    Container_Boundary_End()
+
+    Rel(app_svc, domain_core, "Thao tác Aggregates", "In-memory")
+    Rel(app_svc, gov_engine, "Kiểm tra thẩm quyền L0-L5", "Function call")
+    Rel(app_svc, wkf_engine, "Chuyển đổi trạng thái", "State transition")
+    Rel(app_svc, agt_orc, "Phân bổ tasks", "Async task")
+    Rel(app_svc, gen_engine, "Kích hoạt sinh foundation", "Pipeline call")
+    Rel(app_svc, qlt_engine, "Kiểm định chất lượng", "Evaluation call")
+    Rel(app_svc, infra_adapters, "Gọi I/O qua Ports/Traits", "Trait invocation")
